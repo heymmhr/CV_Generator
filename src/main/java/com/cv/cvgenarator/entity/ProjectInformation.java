@@ -9,9 +9,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "project_information", uniqueConstraints = {
-        @UniqueConstraint(name = "unique_project_information_name", columnNames = "project_name"),
-        @UniqueConstraint(name = "unique_project_information_tech_stack", columnNames = "tech_stack"),
-        @UniqueConstraint(name = "unique_project_information_project_url", columnNames = "project_url")
+        @UniqueConstraint(name="uk_projectInfo_projectName_techStack_projectUrl",columnNames = {"project_name", "tech_stack","project_url"})
 })
 @Getter
 @Setter

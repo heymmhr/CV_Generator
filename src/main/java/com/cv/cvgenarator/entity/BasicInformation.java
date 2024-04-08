@@ -11,9 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "basic_information",uniqueConstraints = {
-        @UniqueConstraint(name = "unique_basic_information_mobile_number", columnNames = "mobile_number"),
-        @UniqueConstraint(name = "unique_basic_information_email", columnNames = "email"),
-        @UniqueConstraint(name = "unique_basic_information_linkedin_url", columnNames = "linkedin_url")
+        @UniqueConstraint(name="uk_basicinfo_mobileNumber_email_linkedinUrl",columnNames = {"mobile_number", "email","linkedin_url"})
 })
 @Getter
 @Setter
@@ -38,6 +36,9 @@ public class BasicInformation {
     @Column(name = "background", columnDefinition = "TEXT", nullable = false)
     private String background;
 
+    @Column(name = "title", length = 100, nullable = false)
+    private String title;
+
     @Column(name = "mobile_number", length = 10, nullable = false)
     private String mobileNumber;
 
@@ -50,8 +51,8 @@ public class BasicInformation {
     @Column(name = "profile_image", length = 200, nullable = false)
     private String profileImage;
 
-    @OneToMany(targetEntity = ExperienceInformation.class, mappedBy = "basicInformation")
-    private List<ExperienceInformation> experienceInformationList;
+   /* @OneToMany(targetEntity = ExperienceInformation.class, mappedBy = "basicInformation")
+    private List<ExperienceInformation> experienceInformationList;*/
 
 
 

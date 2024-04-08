@@ -25,7 +25,7 @@ public class ExperienceInformation {
     private Short id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "basic_id", foreignKey = @ForeignKey(name = "fk_experience_information_basic_information_id"))
+    @JoinColumn(name = "basic_id", foreignKey = @ForeignKey(name = "fk_experienceinfo_basicinfo_id"))
     private BasicInformation basicInformation;
 
     @Column(name = "company_name", length = 200, nullable = false)
@@ -46,7 +46,6 @@ public class ExperienceInformation {
     @Column(name = "to_present")
     private Boolean toPresent;
 
-    @OneToMany(targetEntity = ProjectInformation.class, mappedBy = "experienceInformation")
-    private List<ProjectInformation> projectInformationList;
-
+    /*@OneToMany(mappedBy = "experienceInformation")
+    private List<ProjectInformation> projectInformation;*/
 }

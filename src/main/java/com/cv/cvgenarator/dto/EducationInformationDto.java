@@ -13,8 +13,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class EducationInformationDto {
 
     private Short id;

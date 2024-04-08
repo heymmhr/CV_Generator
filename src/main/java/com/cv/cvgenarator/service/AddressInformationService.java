@@ -17,8 +17,8 @@ public interface AddressInformationService {
     void deleteAddressInformation(Short addressId);
 
     // get
-    AddressInformationDto getAddressInformation(Short addressId);
+    AddressInformationDto getAddressInformationById(Short addressId);
 
     // get all
-    List<AddressInformationDto> getAddresses();
+    List<AddressInformationDto> getAllAddress();
 }

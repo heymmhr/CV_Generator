@@ -1,12 +1,13 @@
 package com.cv.cvgenarator.dto;
 
 import com.cv.cvgenarator.entity.BasicInformation;
-import com.cv.cvgenarator.entity.ProjectInformation;
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
+@Getter
+@Setter
 public class ExperienceInformationDto {
     private Short id;
 
@@ -24,5 +25,7 @@ public class ExperienceInformationDto {
 
     private Boolean toPresent;
 
-    private List<ProjectInformation> projectInformationList;
+    /*private List<ProjectInformation> projectInformation;*/
+
+
 }

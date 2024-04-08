@@ -27,11 +27,11 @@ public class AddressInformation {
     private AddressType addressType;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "basic_id", foreignKey = @ForeignKey(name = "fk_address_information_basic_information_id"))
+    @JoinColumn(name = "basic_id", foreignKey = @ForeignKey(name = "fk_addressinfo_basicinfo_id"))
     private BasicInformation basicInformation;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "localbody_id", foreignKey = @ForeignKey (name = "fk_address_information_localevel_id"))
+    @JoinColumn(name = "localbody_id", foreignKey = @ForeignKey (name = "fk_addressinfo_localevel_id"))
     private LocalLevel localLevel;
 }

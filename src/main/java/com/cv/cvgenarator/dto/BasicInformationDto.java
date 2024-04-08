@@ -12,8 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class BasicInformationDto {
 
     private Short id;
@@ -25,6 +24,8 @@ public class BasicInformationDto {
     private String lastName;
 
     private String background;
+
+    private String title;
 
     private String mobileNumber;
 
