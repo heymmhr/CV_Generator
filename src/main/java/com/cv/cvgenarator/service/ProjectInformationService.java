@@ -8,10 +8,10 @@ import java.util.List;
 public interface ProjectInformationService {
 
     // create
-    ProjectInformationDto createProjectInformation(ProjectInformationDto projectInformationDto);
+    ProjectInformationDto createProjectInformation(ProjectInformationDto projectInformationDto, Short experienceInfoId);
 
     //update
-    ProjectInformationDto updateProjectInformation(ProjectInformationDto projectInformationDto, Short projectId);
+    ProjectInformationDto updateProjectInformation(ProjectInformationDto projectInformationDto, Short projectInfoId);
 
     //delete
     void deleteProjectInformation(Short projectId);

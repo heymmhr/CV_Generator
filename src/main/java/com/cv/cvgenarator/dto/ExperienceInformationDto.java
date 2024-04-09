@@ -1,6 +1,7 @@
 package com.cv.cvgenarator.dto;
 
 import com.cv.cvgenarator.entity.BasicInformation;
+import com.cv.cvgenarator.entity.ExperienceInformation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 public class ExperienceInformationDto {
     private Short id;
 
-    private BasicInformation basicInformation;
+    private BasicInformationDto basicInformation;
 
     private String companyName;
 
@@ -26,6 +27,8 @@ public class ExperienceInformationDto {
     private Boolean toPresent;
 
     /*private List<ProjectInformation> projectInformation;*/
+
+
 
 
 }

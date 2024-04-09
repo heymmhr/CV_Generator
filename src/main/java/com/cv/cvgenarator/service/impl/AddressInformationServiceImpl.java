@@ -1,9 +1,7 @@
 package com.cv.cvgenarator.service.impl;
 
 import com.cv.cvgenarator.dto.AddressInformationDto;
-import com.cv.cvgenarator.dto.BasicInformationDto;
 import com.cv.cvgenarator.entity.AddressInformation;
-import com.cv.cvgenarator.entity.BasicInformation;
 import com.cv.cvgenarator.exceptions.ResourceNotFoundException;
 import com.cv.cvgenarator.repo.AddressInformationRepo;
 import com.cv.cvgenarator.service.AddressInformationService;
@@ -13,13 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AddressInformationImpl implements AddressInformationService {
+public class AddressInformationServiceImpl implements AddressInformationService {
 
     private final AddressInformationRepo addressInformationRepo;
 
     private final ModelMapper modelMapper;
 
-    public AddressInformationImpl(AddressInformationRepo addressInformationRepo, ModelMapper modelMapper) {
+    public AddressInformationServiceImpl(AddressInformationRepo addressInformationRepo, ModelMapper modelMapper) {
         this.addressInformationRepo = addressInformationRepo;
         this.modelMapper = modelMapper;
     }

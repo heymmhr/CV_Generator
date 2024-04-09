@@ -3,9 +3,12 @@ package com.cv.cvgenarator.exceptions;
 import com.cv.cvgenarator.dto.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
@@ -31,6 +34,16 @@ public class GlobalExceptionHandler {
             resp.put(fieldName, message);
         });
         return new ResponseEntity<Map<String, String>>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageConversionException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseEntity<ResponseDto> handleHttpMessageConversionException(HttpMessageConversionException ex) {
+        String message = ex.getMessage();
+        ResponseDto apiResponse = new ResponseDto(message, false, message);
+        return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+
     }
 
 }

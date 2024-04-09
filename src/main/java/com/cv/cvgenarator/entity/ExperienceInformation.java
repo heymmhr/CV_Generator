@@ -24,7 +24,7 @@ public class ExperienceInformation {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "basic_information_gen")
     private Short id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH) //violates foreign key constraint
     @JoinColumn(name = "basic_id", foreignKey = @ForeignKey(name = "fk_experienceinfo_basicinfo_id"))
     private BasicInformation basicInformation;
 

@@ -18,7 +18,7 @@ public class EducationInformationDto {
 
     private Short id;
 
-    private BasicInformation basicInformation;
+    private BasicInformationDto basicInformation;
 
     private String institutionName;
 
@@ -33,7 +33,6 @@ public class EducationInformationDto {
     private Boolean toPresent;
 
     private DegreeName degreeName;
-
 
     private String educationDescription;
 }

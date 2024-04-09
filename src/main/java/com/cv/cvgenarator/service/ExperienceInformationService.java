@@ -7,7 +7,7 @@ import java.util.List;
 public interface ExperienceInformationService {
 
     // create
-    ExperienceInformationDto createExperienceInformation(ExperienceInformationDto experienceInformationDto);
+    ExperienceInformationDto createExperienceInformation(ExperienceInformationDto experienceInformationDto, Short basicInfoId);
 
     //update
     ExperienceInformationDto updateExperienceInformation(ExperienceInformationDto experienceInformationDto, Short experienceInfoId);

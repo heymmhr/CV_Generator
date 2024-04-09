@@ -4,6 +4,7 @@ package com.cv.cvgenarator.controller;
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.ExperienceInformationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,23 +21,26 @@ public class ExperienceInformationController {
     }
 
     //create
-    @PostMapping("/save")
-    public ResponseEntity<ResponseDto> createExperienceInfo(@RequestBody ExperienceInformationDto experienceInformationDto) {
+    @PostMapping("/basic-info/{basic-info-id}/experience")
+    public ResponseEntity<ResponseDto> createExperienceInfo(@RequestBody ExperienceInformationDto experienceInformationDto,
+                                                            @PathVariable ("basic-info-id") Short basicInfoId){
 
-        ExperienceInformationDto experienceInformation = experienceInformationService.createExperienceInformation(experienceInformationDto);
+        ExperienceInformationDto createdExperienceInfo  = experienceInformationService.createExperienceInformation(experienceInformationDto, basicInfoId);
         return ResponseEntity.ok(new ResponseDto
-                ("Experience Information Created successfully!!: अनुभव  जानकारी सफलतापूर्वक सिर्जना गरियो |", true, experienceInformation));
+                ("Experience Information Created successfully!!: अनुभव  जानकारी सफलतापूर्वक सिर्जना गरियो |", true, createdExperienceInfo ));
 
     }
 
-    // update
+    // update by id
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateExperienceInfo(@RequestBody ExperienceInformationDto experienceInformationDto, @PathVariable Short id) {
+    public ResponseEntity<ResponseDto> updateExperienceInfo(@RequestBody ExperienceInformationDto experienceInformationDto,
+                                                            @PathVariable Short id) {
 
         ExperienceInformationDto updateExperienceInfo = experienceInformationService.updateExperienceInformation(experienceInformationDto, id);
-        return ResponseEntity.ok(new ResponseDto
-                ("Experience Information Updated Successfully!! : अनुभव  जानकारी सफलतापूर्वक अद्यावधिक गरियो |", true, updateExperienceInfo));
+        return updateExperienceInfo != null ?
+                ResponseEntity.ok(new ResponseDto("Experience Information Updated Successfully!! : अनुभव  जानकारी सफलतापूर्वक अद्यावधिक गरियो |", true, updateExperienceInfo)):
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
@@ -49,14 +53,16 @@ public class ExperienceInformationController {
         return ResponseEntity.ok(new ResponseDto("Experience Information Deleted Successfully!! : अनुभव  जानकारी सफलतापूर्वक मेटियो", true, null));
     }
 
-    // get
+    // get by id
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getExperienceInfoById(@PathVariable Short id) {
 
         ExperienceInformationDto experienceInformationById = experienceInformationService.getExperienceInfoById(id);
-        return ResponseEntity.ok
-                (new ResponseDto("Experience Information extracted by id!! : id द्वारा निकालिएको अनुभव  जानकारी |", true, experienceInformationById));
+
+        return experienceInformationById != null ?
+                ResponseEntity.ok(new ResponseDto("Experience Information extracted by id!! : id द्वारा निकालिएको अनुभव  जानकारी |", true, experienceInformationById)):
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // get all user

@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BasicInformationImpl implements BasicInformationService {
+public class BasicInformationServiceImpl implements BasicInformationService {
 
     private final BasicInformationRepo basicInformationRepo;
 
     private final ModelMapper modelMapper;
 
 
-    public BasicInformationImpl(BasicInformationRepo basicInformationRepo, ModelMapper modelMapper) {
+    public BasicInformationServiceImpl(BasicInformationRepo basicInformationRepo, ModelMapper modelMapper) {
         this.basicInformationRepo = basicInformationRepo;
         this.modelMapper = modelMapper;
     }
@@ -29,7 +29,6 @@ public class BasicInformationImpl implements BasicInformationService {
         BasicInformation basicInformation = modelMapper.map(basicInformationDto,BasicInformation.class);
         BasicInformation createdBasicInfo = basicInformationRepo.save(basicInformation);
         return modelMapper.map(createdBasicInfo,BasicInformationDto.class);
-
     }
 
     @Override

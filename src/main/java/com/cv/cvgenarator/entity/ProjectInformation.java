@@ -22,7 +22,7 @@ public class ProjectInformation {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "project_information_gen")
     private Short id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "experience_id", foreignKey = @ForeignKey(name = "fk_project_information_experience_information_id"))
     private ExperienceInformation experienceInformation;
 
