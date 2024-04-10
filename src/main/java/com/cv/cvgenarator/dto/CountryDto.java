@@ -21,5 +21,4 @@ public class CountryDto {
 
     private String name;
 
-    private List<Province> provinceList;
 }

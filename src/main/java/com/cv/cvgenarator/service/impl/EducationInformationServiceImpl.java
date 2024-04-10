@@ -115,9 +115,20 @@ public class EducationInformationServiceImpl implements EducationInformationServ
         BasicInformationDto basicInformationDto = new BasicInformationDto();
 
         basicInformationDto.setId(educationInformation.getBasicInformation().getId());
+        basicInformationDto.setBackground(educationInformation.getBasicInformation().getBackground());
+        basicInformationDto.setEmail(educationInformation.getBasicInformation().getEmail());
+        basicInformationDto.setTitle(educationInformation.getBasicInformation().getTitle());
+        basicInformationDto.setFirstName(educationInformation.getBasicInformation().getFirstName());
+        basicInformationDto.setMiddleName(educationInformation.getBasicInformation().getMiddleName());
+        basicInformationDto.setLastName(educationInformation.getBasicInformation().getLastName());
+        basicInformationDto.setMobileNumber(educationInformation.getBasicInformation().getMobileNumber());
+        basicInformationDto.setLinkedinUrl(educationInformation.getBasicInformation().getLinkedinUrl());
+        basicInformationDto.setProfileImage(educationInformation.getBasicInformation().getProfileImage());
+
 
         EducationInformationDto educationInformationDto = new EducationInformationDto();
 
+        educationInformationDto.setId(educationInformation.getBasicInformation().getId());
         educationInformationDto.setInstitutionName(educationInformation.getInstitutionName());
         educationInformationDto.setInstitutionAddress(educationInformation.getInstitutionAddress());
         educationInformationDto.setInstitutionContact(educationInformation.getInstitutionContact());

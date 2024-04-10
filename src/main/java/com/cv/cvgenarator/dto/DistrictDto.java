@@ -24,7 +24,6 @@ public class DistrictDto {
 
     private String code;
 
-    private Province province;
+    private ProvinceDto province;
 
-    private List<LocalLevel> localLevelList;
 }

@@ -31,9 +31,6 @@ public class Province {
     @Column(name = "code", length = 10, unique = true)
     private String code;
 
-    @OneToMany(targetEntity = District.class, mappedBy = "province")
-    private List<District> districtList;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "fk_province_country_id"))
     private Country country;

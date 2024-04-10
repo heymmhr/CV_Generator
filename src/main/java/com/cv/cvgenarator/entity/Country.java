@@ -28,6 +28,4 @@ public class Country {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @OneToMany(targetEntity = Province.class, mappedBy = "country")
-    private List<Province> provinceList;
 }

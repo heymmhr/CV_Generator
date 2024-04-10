@@ -8,7 +8,7 @@ import java.util.List;
 public interface DistrictService {
 
     // create
-    DistrictDto createDistrict(DistrictDto districtDto);
+    DistrictDto createDistrict(DistrictDto districtDto, Short provinceId);
 
     //update
     DistrictDto updateDistrict(DistrictDto districtDto, Short districtId);

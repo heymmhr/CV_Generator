@@ -8,7 +8,7 @@ import java.util.List;
 public interface LocalLevelService {
 
     // create
-    LocalLevelDto createLocalLevel(LocalLevelDto localLevelDto);
+    LocalLevelDto createLocalLevel(LocalLevelDto localLevelDto, Short districtId);
 
     //update
     LocalLevelDto updateLocalLevel(LocalLevelDto localLevelDto, Short localId);

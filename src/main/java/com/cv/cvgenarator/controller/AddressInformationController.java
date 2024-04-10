@@ -19,10 +19,12 @@ public class AddressInformationController {
     }
 
     //create
-    @PostMapping("/save")
-    public ResponseEntity<ResponseDto> createAddressInfo(@RequestBody AddressInformationDto addressInformationDto) {
+    @PostMapping("/basic-info/{basic-info-id}/{local-level-id}/address")
+    public ResponseEntity<ResponseDto> createAddressInfo(@RequestBody AddressInformationDto addressInformationDto,
+                                                         @PathVariable("basic-info-id") Short basicInfoId,
+                                                         @PathVariable ("local-level-id") Short localLevelId) {
 
-        AddressInformationDto addressInformation = addressInformationService.createAddressInformation(addressInformationDto);
+        AddressInformationDto addressInformation = addressInformationService.createAddressInformation(addressInformationDto, basicInfoId, localLevelId);
         return ResponseEntity.ok(new ResponseDto("Address Information Created successfully!!: ठेगाना जानकारी सफलतापूर्वक सिर्जना गरियो |", true, addressInformation));
     }
 

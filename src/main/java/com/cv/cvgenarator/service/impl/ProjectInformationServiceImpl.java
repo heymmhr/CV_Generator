@@ -1,9 +1,7 @@
 package com.cv.cvgenarator.service.impl;
 
-import com.cv.cvgenarator.dto.EducationInformationDto;
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.dto.ProjectInformationDto;
-import com.cv.cvgenarator.entity.EducationInformation;
 import com.cv.cvgenarator.entity.ExperienceInformation;
 import com.cv.cvgenarator.entity.ProjectInformation;
 import com.cv.cvgenarator.exceptions.ResourceNotFoundException;
@@ -95,6 +93,7 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
 
         ProjectInformation projectInformation = new ProjectInformation();
 
+        projectInformation.setId(projectInformationDto.getId());
         projectInformation.setProjectName(projectInformationDto.getProjectName());
         projectInformation.setProjectStatus(projectInformationDto.getProjectStatus());
         projectInformation.setProjectRole(projectInformationDto.getProjectRole());
@@ -111,9 +110,17 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
         ExperienceInformationDto experienceInformationDto = new ExperienceInformationDto();
 
         experienceInformationDto.setId(projectInformation.getExperienceInformation().getId());
+        experienceInformationDto.setCompanyName(projectInformation.getExperienceInformation().getCompanyName());
+        experienceInformationDto.setCompanyAddress(projectInformation.getExperienceInformation().getCompanyAddress());
+        experienceInformationDto.setFromDate(projectInformation.getExperienceInformation().getFromDate());
+        experienceInformationDto.setToDate(projectInformation.getExperienceInformation().getToDate());
+        experienceInformationDto.setToPresent(projectInformation.getExperienceInformation().getToPresent());
+        experienceInformationDto.setCompanyContact(projectInformation.getExperienceInformation().getCompanyContact());
+
 
         ProjectInformationDto projectInformationDto = new ProjectInformationDto();
 
+        projectInformationDto.setId(projectInformation.getId());
         projectInformationDto.setProjectDescription(projectInformation.getProjectDescription());
         projectInformationDto.setProjectName(projectInformation.getProjectName());
         projectInformationDto.setProjectRole(projectInformation.getProjectRole());

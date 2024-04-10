@@ -34,6 +34,6 @@ public class District {
     @JoinColumn(name = "province_id", foreignKey = @ForeignKey(name = "fk_district_province_id"))
     private Province province;
 
-    @OneToMany(targetEntity = LocalLevel.class, mappedBy = "district")
-    private List<LocalLevel> localLevelList;
+   /* @OneToMany(targetEntity = LocalLevel.class, mappedBy = "district")
+    private List<LocalLevel> localLevelList;*/
 }

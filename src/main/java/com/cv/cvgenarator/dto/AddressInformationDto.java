@@ -19,11 +19,11 @@ public class AddressInformationDto {
 
     private AddressType addressType;
 
-    private BasicInformation basicInformation;
+    private BasicInformationDto basicInformation;
 
-    private Province province;
+   /* private Province province;
 
-    private District district;
+    private District district;*/
 
-    private LocalLevel localLevel;
+    private LocalLevelDto localLevel;
 }

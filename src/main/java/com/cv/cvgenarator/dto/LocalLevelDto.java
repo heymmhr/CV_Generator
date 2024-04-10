@@ -20,7 +20,7 @@ public class LocalLevelDto {
 
     private String code;
 
-    private District district;
+    private DistrictDto district;
 
     private Integer totalWardCount;
 }

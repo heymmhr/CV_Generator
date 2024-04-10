@@ -8,7 +8,7 @@ import java.util.List;
 public interface AddressInformationService {
 
     // create
-    AddressInformationDto createAddressInformation(AddressInformationDto addressInformationDto);
+    AddressInformationDto createAddressInformation(AddressInformationDto addressInformationDto, Short basicId, Short localLevelId);
 
     //update
     AddressInformationDto updateAddressInformation(AddressInformationDto addressInformationDto, Short addressId);

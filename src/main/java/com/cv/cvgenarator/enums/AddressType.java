@@ -6,11 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public enum AddressType {
 
-    ADDRESS_TYPE,
     PERMANENT,
     TEMPORARY;
 

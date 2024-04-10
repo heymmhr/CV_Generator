@@ -113,7 +113,18 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
     public ExperienceInformationDto experienceInfoToDto(ExperienceInformation experienceInformation, Short basicInfoId) {
 
         BasicInformationDto basicInformationDto = new BasicInformationDto();
+
         basicInformationDto.setId(experienceInformation.getBasicInformation().getId());
+        basicInformationDto.setBackground(experienceInformation.getBasicInformation().getBackground());
+        basicInformationDto.setEmail(experienceInformation.getBasicInformation().getEmail());
+        basicInformationDto.setTitle(experienceInformation.getBasicInformation().getTitle());
+        basicInformationDto.setFirstName(experienceInformation.getBasicInformation().getFirstName());
+        basicInformationDto.setMiddleName(experienceInformation.getBasicInformation().getMiddleName());
+        basicInformationDto.setLastName(experienceInformation.getBasicInformation().getLastName());
+        basicInformationDto.setMobileNumber(experienceInformation.getBasicInformation().getMobileNumber());
+        basicInformationDto.setLinkedinUrl(experienceInformation.getBasicInformation().getLinkedinUrl());
+        basicInformationDto.setProfileImage(experienceInformation.getBasicInformation().getProfileImage());
+
 
         if (experienceInformation != null) {
             ExperienceInformationDto experienceInformationDto = new ExperienceInformationDto();

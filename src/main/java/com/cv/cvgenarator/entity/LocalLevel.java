@@ -40,5 +40,4 @@ public class LocalLevel {
     private Integer totalWardCount;
 
 
-
 }

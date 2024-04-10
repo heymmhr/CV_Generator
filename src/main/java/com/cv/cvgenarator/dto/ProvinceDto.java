@@ -24,7 +24,5 @@ public class ProvinceDto {
 
     private String code;
 
-    private List<District> districtList;
-
-    private Country country;
+    private CountryDto country;
 }
