@@ -2,10 +2,9 @@ package com.cv.cvgenarator.service.impl;
 
 import com.cv.cvgenarator.dto.AddressInformationDto;
 import com.cv.cvgenarator.dto.BasicInformationDto;
+import com.cv.cvgenarator.dto.IdNameDto;
 import com.cv.cvgenarator.dto.LocalLevelDto;
-import com.cv.cvgenarator.entity.AddressInformation;
-import com.cv.cvgenarator.entity.BasicInformation;
-import com.cv.cvgenarator.entity.LocalLevel;
+import com.cv.cvgenarator.entity.*;
 import com.cv.cvgenarator.exceptions.ResourceNotFoundException;
 import com.cv.cvgenarator.repo.AddressInformationRepo;
 import com.cv.cvgenarator.repo.BasicInformationRepo;
@@ -127,6 +126,19 @@ public class AddressInformationServiceImpl implements AddressInformationService 
         addressInformationDto.setBasicInformation(basicInformationDto);
         addressInformationDto.setAddressType(addressInformation.getAddressType());
         addressInformationDto.setLocalLevel(localLevelDto);
+        addressInformationDto.setLocal(getLocal(addressInformation.getLocalLevel()));
+
         return addressInformationDto;
+    }
+
+    private IdNameDto getLocal(LocalLevel entity){
+        if(entity == null)
+            return null;
+
+        return IdNameDto.builder().id(entity.getId()).name(entity.getName()).build();
+    }
+
+    private IdNameDto getDistrict(District entity){
+        return null;
     }
 }

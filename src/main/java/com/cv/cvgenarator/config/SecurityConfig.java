@@ -47,8 +47,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/api/v1/auth/login").permitAll()
-                                //.requestMatchers(HttpMethod.GET).permitAll()
+                                .requestMatchers(HttpMethod.GET).permitAll()
+                                .requestMatchers(HttpMethod.POST).permitAll()
+                                .requestMatchers(HttpMethod.PUT).permitAll()
+                                .requestMatchers(HttpMethod.DELETE).permitAll()
                                 .requestMatchers("/api/v1/auth/register").permitAll()
+                                .requestMatchers("/index/template").permitAll()
+                                .requestMatchers("/index/generatePdf").permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))

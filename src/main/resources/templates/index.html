@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--    <meta charset="UTF-8">-->
+    <title>Template1</title>
+
+<!--    <link th:replace="fragements/generic_css :: generic_css"/>-->
+<!--    <link rel="stylesheet" th:href="@{css/style.css}"/>-->
+
+</head>
+<body>
+
+<div class="container">
+
+    <span th:text="'Welcome to'+ ${basicInfo.firstName}"></span>
+    <div class="home-three-style">
+
+        <div class="container-fluid p-0">
+            <div class="row m-0">
+                <div class="col-xl-5 col-lg-5 p-0">
+                    <div class="main-left-area h-100">
+                        <section class="intro-section">
+                            <figure class="hero-image">
+                                <img alt="profile-image" src="img/hero-3.jpg"/>
+                            </figure>
+                            <div class="hero-text">
+
+                                <p th:text="${basicInfo.background}"></p>
+                            </div>
+                            <!-- skill section start -->
+                            <div class="skill-section">
+                                <div class="section-title">
+                                    <h2>Professional Skills</h2>
+                                </div>
+                                <div class="skills">
+                                    <ul>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- skill section end -->
+
+                        </section>
+
+                        <!--<section class="resume-section">
+                            <div class="section-title">
+                                <h2></h2>
+                            </div>
+                            <ul class="resume-list">
+                                <li>
+                                    <h2>2008</h2>
+                                    <h3>Ui/Ux Diploma</h3>
+                                    <h4 th:text="${basicInformation.institutionName}"></h4>
+                                    <p th:text="${educationDescription}"> </p>
+                                </li>
+                                <li>
+                                    <h2>2006</h2>
+                                    <h3>Web design Diploma</h3>
+                                    <h4>Design College California</h4>
+                                    <p>Sit amet, consectetur adipiscing elit. Sed porttitor orci ut sapien scelerisqu</p>
+                                </li>
+                            </ul>
+
+                            <div class="hero-info pt-5">
+                                <h3>Reach me at</h3>
+                                <ul>
+                                    <li><span>Address</span>Rosia Road 55, Gibraltar, UK</li>
+                                    <li><span>E-mail</span>mariawilliams@company.com</li>
+                                    <li><span>Phone </span>+43 5266 22 345</li>
+                                </ul>
+                            </div>
+                        </section>-->
+
+                        <div class="social-links">
+                            <a href=""><i class="fa fa-pinterest"></i></a>
+                            <a href=""><i class="fa fa-linkedin"></i></a>
+                            <a href=""><i class="fa fa-instagram"></i></a>
+                            <a href=""><i class="fa fa-facebook"></i></a>
+                            <a href=""><i class="fa fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-7">
+                    <div class="main-right-area">
+                        <!-- Resume section start -->
+                        <section class="resume-section spad pt-0">
+                            <div class="section-title">
+                                <h2 th:text="${basicInfo.firstName + basicInfo.middleName + basicInfo.lastName}"></h2>
+                                <h3>Senior Java Developer</h3>
+                            </div>
+                            <ul class="resume-list">
+                                <h3>Work Background</h3>
+                                <li>
+                                    <h2>2016-Present</h2>
+                                    <h3>Web Design Company</h3>
+                                    <h4>Web Designer</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor orci ut. </p>
+                                </li>
+                                <li>
+                                    <h2>2014-2016</h2>
+                                    <h3>Web Design Company</h3>
+                                    <h4>Web Designer</h4>
+                                    <p>Sit amet, tortor. Vestibulum pelle ntesque tincidunt lorem, vitae euismod</p>
+                                </li>
+                            </ul>
+                        </section>
+                        <!-- Resume section end -->
+
+                        <!-- Project start -->
+                       <!-- <section class="project-section">
+                            <div class="project-title">
+                                <h2>Projects </h2>
+                                <ul>
+                                    <li>Office of Company Registar</li>
+                                    <li>Fast loan</li>
+                                    <li>Rapi money</li>
+                                    <li>Advertisement Board System</li>
+                                </ul>
+                            </div>
+
+                        </section>-->
+                        <!-- Project end -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,5 +1,8 @@
 package com.cv.cvgenarator.controller;
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.dto.UserDto;
 import com.cv.cvgenarator.service.UserService;
@@ -7,16 +10,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController extends BaseController {
 
     private final UserService userService;
+    private final CustomMessageSource customMessageSource;
 
-    public UserController(UserService userService) {
+
+    public UserController(UserService userService, CustomMessageSource customMessageSource) {
         this.userService = userService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.USER;
     }
 
 
@@ -24,9 +29,8 @@ public class UserController {
     @PostMapping("/save")
     public ResponseEntity<ResponseDto> createUser(@RequestBody UserDto userDto) {
 
-        UserDto createdUser = userService.createUser(userDto);
-        return ResponseEntity.ok(new ResponseDto
-                ("User Created successfully!!: प्रान्त सफलतापूर्वक सिर्जना गरियो |", true, createdUser));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), createUser(userDto)), HttpStatus.OK);
 
     }
 
@@ -36,11 +40,14 @@ public class UserController {
     public ResponseEntity<ResponseDto> updateUser(@RequestBody UserDto userDto,
                                                   @PathVariable Short id) {
 
-        UserDto updateUser = userService.updateUser(userDto, id);
+      /*  UserDto updateUser = userService.updateUser(userDto, id);
         return updateUser != null ?
-                ResponseEntity.ok(new ResponseDto
-                        ("User Updated Successfully!! : प्रान्त सफलतापूर्वक अद्यावधिक गरियो |", true, updateUser)) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                ResponseEntity.ok(new ResponseDto("User Updated Successfully!! : प्रान्त सफलतापूर्वक अद्यावधिक गरियो |", true, updateUser)) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);*/
+
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_UPDATE,
+                        customMessageSource.get(MessageCodeConstant.USER)), userService.updateUser(userDto, id)), HttpStatus.OK);
 
     }
 
@@ -50,8 +57,9 @@ public class UserController {
     public ResponseEntity<ResponseDto> deleteUser(@PathVariable Short id) {
 
         userService.deleteUser(id);
-        return ResponseEntity.ok(new
-                ResponseDto("User Deleted Successfully!! : प्रान्त सफलतापूर्वक मेटियो", true, null));
+
+        return ResponseEntity.ok(
+                successResponse(customMessageSource.get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get by id
@@ -59,12 +67,13 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getUserById(@PathVariable Short id) {
 
-        UserDto userById = userService.getUserById(id);
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET,
+                        customMessageSource.get(MessageCodeConstant.USER)), userService.getUserById(id)), HttpStatus.OK);
 
-        return userById != null ?
-                ResponseEntity.ok(new ResponseDto
-                        ("User extracted by id!! : id द्वारा निकालिएको प्रान्त |", true, userById)) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // get all user
@@ -72,10 +81,13 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllProvince() {
 
-        List<UserDto> allProvince = userService.getAllUsers();
-        return ResponseEntity.ok
-                (new ResponseDto
-                        ("All Users extracted!! : सबै प्रान्त निकालियो |", true, allProvince));
+        // List<UserDto> allProvince = userService.getAllUsers();
+
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), userService.getAllUsers()), HttpStatus.OK);
+
+        //return ResponseEntity.ok(new ResponseDto("All Users extracted!! : सबै प्रान्त निकालियो |", true, allProvince));
     }
 
 

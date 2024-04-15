@@ -1,5 +1,8 @@
 package com.cv.cvgenarator.controller;
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.EducationInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.EducationInformationService;
@@ -11,12 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/education-info")
-public class EducationInformationController {
+public class EducationInformationController extends BaseController{
 
     private final EducationInformationService educationInformationService;
+    private final CustomMessageSource customMessageSource;
 
-    public EducationInformationController(EducationInformationService educationInformationService) {
+    public EducationInformationController(EducationInformationService educationInformationService, CustomMessageSource customMessageSource) {
         this.educationInformationService = educationInformationService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.EDUCATION_INFORMATION;
     }
 
 
@@ -25,10 +31,9 @@ public class EducationInformationController {
     public ResponseEntity<ResponseDto> createEducationInfo(@RequestBody EducationInformationDto educationInformationDto,
                                                            @PathVariable("basic-info-id") Short basicInfoId) {
 
-        EducationInformationDto createdEducationInfo = educationInformationService
-                .createEducationInformation(educationInformationDto, basicInfoId);
-        return ResponseEntity.ok(new ResponseDto
-                ("Education Information Created successfully!!: शिक्षा जानकारी सफलतापूर्वक सिर्जना गरियो |", true, createdEducationInfo));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), educationInformationService
+                .createEducationInformation(educationInformationDto,basicInfoId)), HttpStatus.OK);
 
     }
 
@@ -51,7 +56,9 @@ public class EducationInformationController {
     public ResponseEntity<ResponseDto> deleteEducationInfo(@PathVariable Short id) {
 
         educationInformationService.deleteEducationInformation(id);
-        return ResponseEntity.ok(new ResponseDto("Education Information Deleted Successfully!! : शिक्षा  जानकारी सफलतापूर्वक मेटियो", true, null));
+        return ResponseEntity.ok(
+                successResponse(customMessageSource.get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
+
     }
 
     // get by id
@@ -59,12 +66,14 @@ public class EducationInformationController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getEducationInfoById(@PathVariable Short id) {
 
-        EducationInformationDto educationInformationById = educationInformationService.getEducationInfoById(id);
 
-        return educationInformationById != null ?
-                ResponseEntity
-                        .ok(new ResponseDto("Education Information extracted by id!! : id द्वारा निकालिएको शिक्षा जानकारी |", true, educationInformationById)) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET, customMessageSource.get(MessageCodeConstant.EDUCATION_INFORMATION)), educationInformationService
+                .getEducationInfoById(id)), HttpStatus.OK);
+
     }
 
     // get all user
@@ -72,8 +81,9 @@ public class EducationInformationController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllEducationInfo() {
 
-        List<EducationInformationDto> allExperienceInfo = educationInformationService.getAllEducationInformation();
-        return ResponseEntity.ok
-                (new ResponseDto("All Education Information extracted!! : सबै शिक्षा  जानकारी निकालियो |", true, allExperienceInfo));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), educationInformationService.getAllEducationInformation()), HttpStatus.OK);
+
     }
 }

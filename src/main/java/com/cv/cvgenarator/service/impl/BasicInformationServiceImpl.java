@@ -45,6 +45,7 @@ public class BasicInformationServiceImpl implements BasicInformationService {
         basicInformation.setMobileNumber(basicInformationDto.getMobileNumber());
         basicInformation.setEmail(basicInformationDto.getEmail());
         basicInformation.setLinkedinUrl(basicInformationDto.getLinkedinUrl());
+        basicInformation.setProfileImage(basicInformationDto.getProfileImage());
 
         BasicInformation updateBasicInformation = basicInformationRepo.save(basicInformation);
         return modelMapper.map(updateBasicInformation, BasicInformationDto.class);

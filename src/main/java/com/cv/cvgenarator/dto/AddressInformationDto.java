@@ -5,6 +5,7 @@ import com.cv.cvgenarator.entity.District;
 import com.cv.cvgenarator.entity.LocalLevel;
 import com.cv.cvgenarator.entity.Province;
 import com.cv.cvgenarator.enums.AddressType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddressInformationDto {
 
     private Short id;
@@ -26,4 +27,9 @@ public class AddressInformationDto {
     private District district;*/
 
     private LocalLevelDto localLevel;
+
+    private IdNameDto country;
+    private IdNameDto province;
+    private IdNameDto district;
+    private IdNameDto local;
 }

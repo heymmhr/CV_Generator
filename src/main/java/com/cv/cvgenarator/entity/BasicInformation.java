@@ -2,10 +2,7 @@ package com.cv.cvgenarator.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -53,9 +50,5 @@ public class BasicInformation {
 
    /* @OneToMany(targetEntity = ExperienceInformation.class, mappedBy = "basicInformation")
     private List<ExperienceInformation> experienceInformationList;*/
-
-
-
-
 
 }
