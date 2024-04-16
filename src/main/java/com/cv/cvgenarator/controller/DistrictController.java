@@ -1,5 +1,8 @@
 package com.cv.cvgenarator.controller;
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.DistrictDto;
 import com.cv.cvgenarator.dto.ProvinceDto;
 import com.cv.cvgenarator.dto.ResponseDto;
@@ -12,12 +15,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/district")
-public class DistrictController {
+public class DistrictController extends BaseController{
 
     private final DistrictService districtService;
 
-    public DistrictController(DistrictService districtService) {
+    private final CustomMessageSource customMessageSource;
+    public DistrictController(DistrictService districtService, CustomMessageSource customMessageSource) {
         this.districtService = districtService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.DISTRICT;
     }
 
     //create
@@ -25,9 +31,9 @@ public class DistrictController {
     public ResponseEntity<ResponseDto> createDistrict(@RequestBody DistrictDto districtDto,
                                                       @PathVariable("province-id") Short provinceId){
 
-        DistrictDto createdDistrict  = districtService.createDistrict(districtDto, provinceId);
-        return ResponseEntity.ok(new ResponseDto
-                ("District Created successfully!!: जिल्ला सफलतापूर्वक सिर्जना गरियो |", true, createdDistrict ));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), districtService
+                .createDistrict(districtDto, provinceId)), HttpStatus.OK);
 
     }
     // update by id
@@ -36,11 +42,10 @@ public class DistrictController {
     public ResponseEntity<ResponseDto> updateDistrict(@RequestBody DistrictDto districtDto,
                                                       @PathVariable Short id) {
 
-        DistrictDto updateDistrict = districtService.updateDistrict(districtDto, id);
-        return updateDistrict != null ?
-                ResponseEntity.ok(new ResponseDto
-                        ("District Updated Successfully!! : जिल्ला सफलतापूर्वक अद्यावधिक गरियो |", true, updateDistrict)):
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_UPDATE, customMessageSource
+                        .get(MessageCodeConstant.DISTRICT)), districtService
+                .updateDistrict(districtDto, id)), HttpStatus.OK);
 
     }
 
@@ -50,8 +55,8 @@ public class DistrictController {
     public ResponseEntity<ResponseDto> deleteDistrict(@PathVariable Short id) {
 
         districtService.deleteDistrict(id);
-        return ResponseEntity.ok(new
-                ResponseDto("District Deleted Successfully!! : जिल्ला सफलतापूर्वक मेटियो", true, null));
+        return ResponseEntity.ok(
+                successResponse(customMessageSource.get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get by id
@@ -59,12 +64,12 @@ public class DistrictController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getDistrictById(@PathVariable Short id) {
 
-        DistrictDto districtById = districtService.getDistrictById(id);
-
-        return districtById != null ?
-                ResponseEntity.ok(new ResponseDto
-                        ("District extracted by id!! : id द्वारा निकालिएको जिल्ला |", true, districtById)):
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET, customMessageSource
+                        .get(MessageCodeConstant.DISTRICT)), districtService.getDistrictById(id)), HttpStatus.OK);
     }
 
     // get all user
@@ -72,9 +77,8 @@ public class DistrictController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllDistrict() {
 
-        List<DistrictDto> allDistrict = districtService.getAllDistricts();
-        return ResponseEntity.ok
-                (new ResponseDto
-                        ("All District extracted!! : सबै जिल्ला निकालियो |", true, allDistrict));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), districtService.getAllDistricts()), HttpStatus.OK);
     }
 }

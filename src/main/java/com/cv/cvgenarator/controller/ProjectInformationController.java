@@ -1,5 +1,8 @@
 package com.cv.cvgenarator.controller;
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.ProjectInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.ProjectInformationService;
@@ -11,12 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/project-info")
-public class ProjectInformationController {
+public class ProjectInformationController extends BaseController{
 
     private final ProjectInformationService projectInformationService;
+    private final CustomMessageSource customMessageSource;
 
-    public ProjectInformationController(ProjectInformationService projectInformationService) {
+    public ProjectInformationController(ProjectInformationService projectInformationService, CustomMessageSource customMessageSource) {
         this.projectInformationService = projectInformationService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.PROJECT_INFORMATION;
     }
 
     //create
@@ -24,11 +30,10 @@ public class ProjectInformationController {
     public ResponseEntity<ResponseDto> createProjectInfo(@RequestBody ProjectInformationDto projectInformationDto,
                                                          @PathVariable("experience-info-id") Short experienceInfoId) {
 
-        ProjectInformationDto createdProjectInfo = projectInformationService
-                .createProjectInformation(projectInformationDto, experienceInfoId);
-        return ResponseEntity.ok(new ResponseDto
-                ("Project Information Created successfully!!: परियोजना जानकारी सफलतापूर्वक सिर्जना गरियो |", true, createdProjectInfo));
 
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), projectInformationService
+                .createProjectInformation(projectInformationDto,experienceInfoId)), HttpStatus.OK);
     }
 
     // update by id
@@ -51,7 +56,8 @@ public class ProjectInformationController {
     public ResponseEntity<ResponseDto> deleteProjectInfo(@PathVariable Short id) {
 
         projectInformationService.deleteProjectInformation(id);
-        return ResponseEntity.ok(new ResponseDto("Project Information Deleted Successfully!! : परियोजना  जानकारी सफलतापूर्वक मेटियो", true, null));
+        return ResponseEntity.ok(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)),null));
     }
 
     // get by id
@@ -59,12 +65,12 @@ public class ProjectInformationController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getProjectInfoById(@PathVariable Short id) {
 
-        ProjectInformationDto projectInformationById = projectInformationService.getProjectInformationById(id);
-
-        return projectInformationById != null ?
-                ResponseEntity
-                        .ok(new ResponseDto("Project Information extracted by id!! : id द्वारा निकालिएको परियोजना जानकारी |", true, projectInformationById)) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET, customMessageSource.get(MessageCodeConstant.PROJECT_INFORMATION)), projectInformationService
+                .getProjectInformationById(id)), HttpStatus.OK);
     }
 
     // get all user
@@ -72,9 +78,27 @@ public class ProjectInformationController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllProjectInfo() {
 
-        List<ProjectInformationDto> allExperienceInfo = projectInformationService.getAllProjectInfo();
-        return ResponseEntity.ok
-                (new ResponseDto("All Project Information extracted!! : सबै परियोजना जानकारी निकालियो |", true, allExperienceInfo));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), projectInformationService.getAllProjectInfo()), HttpStatus.OK);
+    }
+
+    // get by experienceId
+
+    @GetMapping("by-experience-id/{experience-id}")
+    public ResponseEntity<ResponseDto> getProjectInfoByExperienceId(@PathVariable ("experience-id") Short experienceId){
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET, customMessageSource
+                        .get(messageCode)), projectInformationService.getProjectInfoByExperienceInfoId(experienceId)), HttpStatus.OK);
+    }
+
+    //get by basicId
+
+    @GetMapping("by-basic-id/{basic-info-id}")
+    public ResponseEntity<ResponseDto>getProjectInfoByBasicInfoId(@PathVariable("basic-info-id") Short basicInfoId){
+        return new ResponseEntity<> (successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET, customMessageSource
+                .get(messageCode)), projectInformationService.getProjectInfoByBasicInfoId(basicInfoId)),HttpStatus.OK);
     }
 
 }

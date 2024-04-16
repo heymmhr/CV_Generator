@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BasicInformationRepo extends JpaRepository<BasicInformation,Short> {
 
-    BasicInformation getBasicInformationByEmail(String email);
+   /* BasicInformation getBasicInformationByEmail(String email);*/
 }

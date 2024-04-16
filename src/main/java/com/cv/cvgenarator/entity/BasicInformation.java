@@ -51,4 +51,8 @@ public class BasicInformation {
    /* @OneToMany(targetEntity = ExperienceInformation.class, mappedBy = "basicInformation")
     private List<ExperienceInformation> experienceInformationList;*/
 
+    public BasicInformation(Short id){
+        this.id = id;
+    }
+
 }

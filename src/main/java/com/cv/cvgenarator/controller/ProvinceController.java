@@ -1,6 +1,9 @@
 package com.cv.cvgenarator.controller;
 
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.CountryDto;
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.dto.ProvinceDto;
@@ -14,12 +17,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/province")
-public class ProvinceController {
+public class ProvinceController extends BaseController{
 
     private final ProvinceService provinceService;
+    private final CustomMessageSource customMessageSource;
 
-    public ProvinceController(ProvinceService provinceService) {
+    public ProvinceController(ProvinceService provinceService, CustomMessageSource customMessageSource) {
         this.provinceService = provinceService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.PROVINCE;
     }
 
     //create
@@ -27,9 +33,10 @@ public class ProvinceController {
     public ResponseEntity<ResponseDto> createProvince(@RequestBody ProvinceDto provinceDto,
                                                             @PathVariable("country-id") Short countryId){
 
-        ProvinceDto createdProvince  = provinceService.createProvince(provinceDto, countryId);
-        return ResponseEntity.ok(new ResponseDto
-                ("Province Created successfully!!: प्रान्त सफलतापूर्वक सिर्जना गरियो |", true, createdProvince ));
+
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), provinceService
+                .createProvince(provinceDto,countryId)), HttpStatus.OK);
 
     }
 
@@ -53,8 +60,8 @@ public class ProvinceController {
     public ResponseEntity<ResponseDto> deleteProvince(@PathVariable Short id) {
 
         provinceService.deleteProvince(id);
-        return ResponseEntity.ok(new
-                ResponseDto("Province Deleted Successfully!! : प्रान्त सफलतापूर्वक मेटियो", true, null));
+        return ResponseEntity.ok(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get by id
@@ -62,12 +69,12 @@ public class ProvinceController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getProvinceById(@PathVariable Short id) {
 
-        ProvinceDto provinceById = provinceService.getProvinceById(id);
-
-        return provinceById != null ?
-                ResponseEntity.ok(new ResponseDto
-                        ("Province extracted by id!! : id द्वारा निकालिएको प्रान्त |", true, provinceById)):
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET, customMessageSource.get(MessageCodeConstant.PROVINCE)), provinceService
+                .getProvinceById(id)), HttpStatus.OK);
     }
 
     // get all user
@@ -75,9 +82,8 @@ public class ProvinceController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllProvince() {
 
-        List<ProvinceDto> allProvince = provinceService.getAllProvinces();
-        return ResponseEntity.ok
-                (new ResponseDto
-                        ("All Province extracted!! : सबै प्रान्त निकालियो |", true, allProvince));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), provinceService.getAllProvinces()), HttpStatus.OK);
     }
 }

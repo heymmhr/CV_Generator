@@ -1,6 +1,9 @@
 package com.cv.cvgenarator.controller;
 
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.ExperienceInformationService;
@@ -12,12 +15,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/experience-info")
-public class ExperienceInformationController {
+public class ExperienceInformationController extends BaseController{
 
     private final ExperienceInformationService experienceInformationService;
 
-    public ExperienceInformationController(ExperienceInformationService experienceInformationService) {
+    private final CustomMessageSource customMessageSource;
+
+    public ExperienceInformationController(ExperienceInformationService experienceInformationService, CustomMessageSource customMessageSource) {
         this.experienceInformationService = experienceInformationService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.EXPERIENCE_INFORMATION;
     }
 
     //create
@@ -25,10 +32,9 @@ public class ExperienceInformationController {
     public ResponseEntity<ResponseDto> createExperienceInfo(@RequestBody ExperienceInformationDto experienceInformationDto,
                                                             @PathVariable ("basic-info-id") Short basicInfoId){
 
-        ExperienceInformationDto createdExperienceInfo  = experienceInformationService.createExperienceInformation(experienceInformationDto, basicInfoId);
-        return ResponseEntity.ok(new ResponseDto
-                ("Experience Information Created successfully!!: अनुभव  जानकारी सफलतापूर्वक सिर्जना गरियो |", true, createdExperienceInfo ));
-
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), experienceInformationService
+                .createExperienceInformation(experienceInformationDto,basicInfoId)), HttpStatus.OK);
     }
 
     // update by id
@@ -50,7 +56,8 @@ public class ExperienceInformationController {
     public ResponseEntity<ResponseDto> deleteExperienceInfo(@PathVariable Short id) {
 
         experienceInformationService.deleteExperienceInformation(id);
-        return ResponseEntity.ok(new ResponseDto("Experience Information Deleted Successfully!! : अनुभव  जानकारी सफलतापूर्वक मेटियो", true, null));
+        return ResponseEntity.ok(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get by id
@@ -58,11 +65,12 @@ public class ExperienceInformationController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getExperienceInfoById(@PathVariable Short id) {
 
-        ExperienceInformationDto experienceInformationById = experienceInformationService.getExperienceInfoById(id);
-
-        return experienceInformationById != null ?
-                ResponseEntity.ok(new ResponseDto("Experience Information extracted by id!! : id द्वारा निकालिएको अनुभव  जानकारी |", true, experienceInformationById)):
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET, customMessageSource.get(MessageCodeConstant.EXPERIENCE_INFORMATION)), experienceInformationService
+                .getExperienceInfoById(id)), HttpStatus.OK);
     }
 
     // get all user
@@ -70,9 +78,9 @@ public class ExperienceInformationController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllExperienceInfo() {
 
-        List<ExperienceInformationDto> allExperienceInfo = experienceInformationService.getAllExperienceInformation();
-        return ResponseEntity.ok
-                (new ResponseDto("All Experience Information extracted!! : सबै अनुभव  जानकारी निकालियो |", true, allExperienceInfo));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), experienceInformationService.getAllExperienceInformation()), HttpStatus.OK);
     }
 
 

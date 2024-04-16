@@ -46,6 +46,11 @@ public class ExperienceInformation {
     @Column(name = "to_present")
     private Boolean toPresent;
 
+    public ExperienceInformation(Short experienceInfoId) {
+
+        this.id = experienceInfoId;
+    }
+
     /*@OneToMany(mappedBy = "experienceInformation")
     private List<ProjectInformation> projectInformation;*/
 }

@@ -1,5 +1,6 @@
 package com.cv.cvgenarator.service;
 
+import com.cv.cvgenarator.dto.EducationInformationDto;
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface ExperienceInformationService {
 
     // get all
     List<ExperienceInformationDto> getAllExperienceInformation();
+
+    // get by basic id
+    List<ExperienceInformationDto> getExperienceInfoByBasicInfoId(Short basicInfoId);
 }

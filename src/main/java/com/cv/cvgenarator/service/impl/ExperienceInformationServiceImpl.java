@@ -1,8 +1,10 @@
 package com.cv.cvgenarator.service.impl;
 
 import com.cv.cvgenarator.dto.BasicInformationDto;
+import com.cv.cvgenarator.dto.EducationInformationDto;
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.entity.BasicInformation;
+import com.cv.cvgenarator.entity.EducationInformation;
 import com.cv.cvgenarator.entity.ExperienceInformation;
 import com.cv.cvgenarator.exceptions.ResourceNotFoundException;
 import com.cv.cvgenarator.repo.BasicInformationRepo;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -35,7 +38,7 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
         ExperienceInformation savedExperienceInformation = experienceInformationRepo.save(experienceInformation);
 
         // Convert entity back to DTO and return
-        return experienceInfoToDto(savedExperienceInformation, basicInfoId);
+        return experienceInfoToDto(savedExperienceInformation);
     }
 
     @Override
@@ -56,7 +59,7 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
             ExperienceInformation updatedExperienceInformation = experienceInformationRepo.save(existingExperienceInformation);
 
             // Convert updated entity to DTO and return
-            return experienceInfoToDto(updatedExperienceInformation, experienceInfoId);
+            return experienceInfoToDto(updatedExperienceInformation);
         }
         return null;
     }
@@ -71,10 +74,11 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
     @Override
     public ExperienceInformationDto getExperienceInfoById(Short experienceInfoId) {
         // Retrieve entity from repository
-        ExperienceInformation experienceInformation = experienceInformationRepo.findById(experienceInfoId).orElse(null);
+        ExperienceInformation experienceInformation = experienceInformationRepo.findById(experienceInfoId)
+                .orElseThrow(()-> new ResourceNotFoundException("Experience info", "id", experienceInfoId));
 
         // Convert entity to DTO and return
-        return experienceInfoToDto(experienceInformation, experienceInfoId);
+        return experienceInfoToDto(experienceInformation);
     }
 
     @Override
@@ -85,9 +89,14 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
         // Convert entities to DTOs
         List<ExperienceInformationDto> dtos = new ArrayList<>();
         for (ExperienceInformation experienceInformation : experienceInformationList) {
-            dtos.add(experienceInfoToDto(experienceInformation, null));
+            dtos.add(experienceInfoToDto(experienceInformation));
         }
         return dtos;
+    }
+
+    @Override
+    public List<ExperienceInformationDto> getExperienceInfoByBasicInfoId(Short basicInfoId) {
+        return toDto(experienceInformationRepo.findExperienceInformationByBasicInformation(new BasicInformation(basicInfoId)));
     }
 
 
@@ -110,7 +119,7 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
     }
 
     // Helper method to convert entity to DTO
-    public ExperienceInformationDto experienceInfoToDto(ExperienceInformation experienceInformation, Short basicInfoId) {
+    public ExperienceInformationDto experienceInfoToDto(ExperienceInformation experienceInformation) {
 
         BasicInformationDto basicInformationDto = new BasicInformationDto();
 
@@ -126,7 +135,6 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
         basicInformationDto.setProfileImage(experienceInformation.getBasicInformation().getProfileImage());
 
 
-        if (experienceInformation != null) {
             ExperienceInformationDto experienceInformationDto = new ExperienceInformationDto();
             experienceInformationDto.setId(experienceInformation.getId());
             experienceInformationDto.setCompanyName(experienceInformation.getCompanyName());
@@ -138,66 +146,11 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
             experienceInformationDto.setBasicInformation(basicInformationDto);
 
             return experienceInformationDto;
-        }
-        return null;
+
     }
 
-    /*@Override
-    public ExperienceInformationDto createExperienceInformation(ExperienceInformationDto experienceInformationDto, Short basicInfoId) {
-
-
-
-        BasicInformation basicInformation = basicInformationRepo.findById(basicInfoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Basic Information", "Id", experienceInformationDto.getBasicInformation().getId()));
-
-
-        ExperienceInformation experienceInformation = modelMapper.map(experienceInformationDto, ExperienceInformation.class);
-        experienceInformation.setBasicInformation(basicInformation);
-        ExperienceInformation createdExperienceInfo = experienceInformationRepo.save(experienceInformation);
-        return modelMapper.map(createdExperienceInfo, ExperienceInformationDto.class);
+    public List<ExperienceInformationDto> toDto(List<ExperienceInformation> educationInformationList){
+        return educationInformationList.stream().map(this::experienceInfoToDto).collect(Collectors.toList());
     }
 
-    @Override
-    public ExperienceInformationDto updateExperienceInformation(ExperienceInformationDto experienceInformationDto, Short experienceInfoId) {
-
-        ExperienceInformation experienceInformation = experienceInformationRepo
-                .findById(experienceInfoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Experience Information ", "Id", experienceInfoId));
-
-        experienceInformation.setCompanyName(experienceInformationDto.getCompanyName());
-        experienceInformation.setCompanyAddress(experienceInformationDto.getCompanyAddress());
-        experienceInformation.setCompanyContact(experienceInformationDto.getCompanyContact());
-        experienceInformation.setFromDate(experienceInformationDto.getFromDate());
-        experienceInformation.setToDate(experienceInformationDto.getToDate());
-        experienceInformation.setToPresent(experienceInformationDto.getToPresent());
-
-        ExperienceInformation updatedExperienceInfo = experienceInformationRepo.save(experienceInformation);
-        return modelMapper.map(updatedExperienceInfo, ExperienceInformationDto.class);
-    }
-
-
-    @Override
-    public void deleteExperienceInformation(Short experienceInfoId) {
-
-        ExperienceInformation experienceInformation = experienceInformationRepo.findById(experienceInfoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Basic Information", "Id", experienceInfoId));
-        experienceInformationRepo.delete(experienceInformation);
-    }
-
-    @Override
-    public ExperienceInformationDto getExperienceInfoById(Short experienceInfoId) {
-
-        ExperienceInformation experienceInformation = experienceInformationRepo.findById(experienceInfoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Basic Information ", "Id", experienceInfoId));
-        return modelMapper.map(experienceInformation, ExperienceInformationDto.class);
-    }
-
-    @Override
-    public List<ExperienceInformationDto> getAllExperienceInformation() {
-
-        List<ExperienceInformation> allExperienceInformation = experienceInformationRepo.findAll();
-        List<ExperienceInformationDto> allExperienceInformationDto = allExperienceInformation.stream()
-                .map((experienceinfo) -> modelMapper.map(experienceinfo, ExperienceInformationDto.class)).toList();
-        return allExperienceInformationDto;
-    }*/
 }

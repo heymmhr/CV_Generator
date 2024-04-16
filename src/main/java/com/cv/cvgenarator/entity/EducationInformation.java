@@ -21,7 +21,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class EducationInformation {
 
-
     @Id
     @SequenceGenerator(name = "education_information_gen",sequenceName = "education_information_seq",allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "education_information_gen")

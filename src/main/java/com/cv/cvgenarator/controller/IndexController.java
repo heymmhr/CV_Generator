@@ -1,8 +1,7 @@
 package com.cv.cvgenarator.controller;
 
 
-import com.cv.cvgenarator.dto.ResponseDto;
-import com.cv.cvgenarator.service.PdfGenerateService;
+import com.cv.cvgenarator.service.CVGenerateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,14 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/index")
 public class IndexController extends BaseController {
 
     @Autowired
-    private PdfGenerateService pdfGenerateService;
+    private CVGenerateService pdfGenerateService;
 
     @GetMapping("/template")
     public String openTemplate() {
@@ -34,5 +32,11 @@ public class IndexController extends BaseController {
         header.setContentLength(pdf.length);
         header.set("Content-Disposition", "attachment; filename=" + "pdf-" + id + ".pdf");
         return new ResponseEntity<>(pdf, header, HttpStatus.OK);
+    }
+
+    @GetMapping("/generateHtml/{id}")
+    public ResponseEntity<String> generateHtml(@PathVariable Short id) {
+
+        return  ResponseEntity.ok(pdfGenerateService.getAllInformation(id));
     }
 }

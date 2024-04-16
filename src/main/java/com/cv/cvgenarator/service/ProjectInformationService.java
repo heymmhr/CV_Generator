@@ -1,5 +1,6 @@
 package com.cv.cvgenarator.service;
 
+import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.dto.LocalLevelDto;
 import com.cv.cvgenarator.dto.ProjectInformationDto;
 
@@ -21,4 +22,10 @@ public interface ProjectInformationService {
 
     // get all
     List<ProjectInformationDto> getAllProjectInfo();
+
+    //get by experience id
+
+    List<ProjectInformationDto> getProjectInfoByExperienceInfoId(Short experienceInfoId);
+    // get by basic id
+    List<ProjectInformationDto> getProjectInfoByBasicInfoId(Short basicInfoId);
 }

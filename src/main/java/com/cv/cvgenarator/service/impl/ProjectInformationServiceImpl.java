@@ -2,6 +2,8 @@ package com.cv.cvgenarator.service.impl;
 
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.dto.ProjectInformationDto;
+import com.cv.cvgenarator.entity.BasicInformation;
+import com.cv.cvgenarator.entity.EducationInformation;
 import com.cv.cvgenarator.entity.ExperienceInformation;
 import com.cv.cvgenarator.entity.ProjectInformation;
 import com.cv.cvgenarator.exceptions.ResourceNotFoundException;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectInformationServiceImpl implements ProjectInformationService {
@@ -30,13 +33,14 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
     public ProjectInformationDto createProjectInformation(ProjectInformationDto projectInformationDto, Short experienceInfoId) {
         ProjectInformation projectInformation = dtoToProjectInfo(projectInformationDto, experienceInfoId);
         ProjectInformation createProjectInfo = projectInformationRepo.save(projectInformation);
-        return projectInfoToDto(createProjectInfo, experienceInfoId);
+        return projectInfoToDto(createProjectInfo);
     }
 
     @Override
     public ProjectInformationDto updateProjectInformation(ProjectInformationDto projectInformationDto, Short projectInfoId) {
         // Retrieve existing entity from repository
-        ProjectInformation existingProjectInformation = projectInformationRepo.findById(projectInfoId).orElse(null);
+        ProjectInformation existingProjectInformation = projectInformationRepo.findById(projectInfoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project Information", "Id", projectInfoId));
 
         if (existingProjectInformation != null) {
             // Update entity with DTO data
@@ -52,7 +56,7 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
             ProjectInformation updatedProjectInformation = projectInformationRepo.save(existingProjectInformation);
 
             // Convert updated entity to DTO and return
-            return projectInfoToDto(updatedProjectInformation, projectInfoId);
+            return projectInfoToDto(updatedProjectInformation);
         }
         return null;
     }
@@ -67,10 +71,11 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
     @Override
     public ProjectInformationDto getProjectInformationById(Short projectInfoId) {
         // Retrieve entity from repository
-        ProjectInformation projectInformation = projectInformationRepo.findById(projectInfoId).orElse(null);
+        ProjectInformation projectInformation = projectInformationRepo.findById(projectInfoId)
+                .orElseThrow(()-> new ResourceNotFoundException("Project info", "id", projectInfoId));
 
         // Convert entity to DTO and return
-        return projectInfoToDto(projectInformation, projectInfoId);
+        return projectInfoToDto(projectInformation);
     }
 
     @Override
@@ -81,9 +86,20 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
         // Convert entities to DTOs
         List<ProjectInformationDto> dtos = new ArrayList<>();
         for (ProjectInformation projectInformation : projectInformationList) {
-            dtos.add(projectInfoToDto(projectInformation, null));
+            dtos.add(projectInfoToDto(projectInformation));
         }
         return dtos;
+    }
+
+    @Override
+    public List<ProjectInformationDto> getProjectInfoByExperienceInfoId(Short experienceInfoId) {
+
+        return  toDto(projectInformationRepo.findProjectInformationByExperienceInformationId(experienceInfoId));
+    }
+
+    @Override
+    public List<ProjectInformationDto> getProjectInfoByBasicInfoId(Short basicInfoId) {
+        return toDto(projectInformationRepo.findByExperienceInformation_BasicInformation_Id(basicInfoId));
     }
 
     public ProjectInformation dtoToProjectInfo(ProjectInformationDto projectInformationDto, Short experienceInfoId) {
@@ -105,7 +121,7 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
         return projectInformation;
     }
 
-    public ProjectInformationDto projectInfoToDto(ProjectInformation projectInformation, Short experienceInfoId) {
+    public ProjectInformationDto projectInfoToDto(ProjectInformation projectInformation) {
 
         ExperienceInformationDto experienceInformationDto = new ExperienceInformationDto();
 
@@ -127,8 +143,11 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
         projectInformationDto.setProjectStatus(projectInformation.getProjectStatus());
         projectInformationDto.setTechStack(projectInformation.getTechStack());
         projectInformationDto.setProjectUrl(projectInformation.getProjectUrl());
-        projectInformationDto.setExperienceInformation(experienceInformationDto);
+       // projectInformationDto.setExperienceInformation(experienceInformationDto);
 
         return projectInformationDto;
+    }
+    public List<ProjectInformationDto> toDto(List<ProjectInformation> projectInformationList){
+        return projectInformationList.stream().map(this::projectInfoToDto).collect(Collectors.toList());
     }
 }

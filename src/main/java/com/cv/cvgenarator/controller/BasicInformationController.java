@@ -84,8 +84,8 @@ public class BasicInformationController extends BaseController{
             throw new NullPointerException("Id is null");
         }
         return new ResponseEntity<>(successResponse(customMessageSource.
-                get(MessageConstant.CRUD_GET,
-                        customMessageSource.get(MessageCodeConstant.BASIC_INFORMATION)), basicInformationService.getBasicInformationById(id)), HttpStatus.OK);
+                get(MessageConstant.CRUD_GET, customMessageSource
+                        .get(MessageCodeConstant.BASIC_INFORMATION)), basicInformationService.getBasicInformationById(id)), HttpStatus.OK);
 
     }
 

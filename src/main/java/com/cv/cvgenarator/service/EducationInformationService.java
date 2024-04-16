@@ -1,9 +1,7 @@
 package com.cv.cvgenarator.service;
 
-import com.cv.cvgenarator.dto.DistrictDto;
 import com.cv.cvgenarator.dto.EducationInformationDto;
-import lombok.Getter;
-import lombok.Setter;
+import com.cv.cvgenarator.entity.EducationInformation;
 
 import java.util.List;
 
@@ -22,6 +20,11 @@ public interface EducationInformationService {
     // get
     EducationInformationDto getEducationInfoById(Short educationInfoId);
 
+
     // get all
     List<EducationInformationDto> getAllEducationInformation();
+
+
+    // get by basic id
+    List<EducationInformationDto> getEducationInfoByBasicInfoId(Short basicInfoId);
 }

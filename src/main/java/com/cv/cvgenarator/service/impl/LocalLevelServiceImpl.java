@@ -72,7 +72,7 @@ public class LocalLevelServiceImpl implements LocalLevelService {
     }
 
     @Override
-    public List<LocalLevelDto> getAllLocalLevel() {
+    public List<LocalLevelDto>  getAllLocalLevel() {
         // Retrieve all entities from repository
         List<LocalLevel> localLevelList = localLevelRepo.findAll();
 

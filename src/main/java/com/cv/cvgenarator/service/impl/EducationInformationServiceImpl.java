@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EducationInformationServiceImpl implements EducationInformationService {
@@ -31,7 +32,7 @@ public class EducationInformationServiceImpl implements EducationInformationServ
 
         EducationInformation educationInformation = dtoToEducationInfo(educationInformationDto, basicInfoId);
         EducationInformation createEducationInfo = educationInformationRepo.save(educationInformation);
-        return educationInfoToDto(createEducationInfo, basicInfoId);
+        return educationInfoToDto(createEducationInfo);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class EducationInformationServiceImpl implements EducationInformationServ
             EducationInformation updatedEducationInformation = educationInformationRepo.save(existingEducationInformation);
 
             // Convert updated entity to DTO and return
-            return educationInfoToDto(updatedEducationInformation, educationInfoId);
+            return educationInfoToDto(updatedEducationInformation);
         }
         return null;
     }
@@ -73,8 +74,12 @@ public class EducationInformationServiceImpl implements EducationInformationServ
         EducationInformation educationInformation = educationInformationRepo.findById(educationInfoId).orElse(null);
 
         // Convert entity to DTO and return
-        return educationInfoToDto(educationInformation, educationInfoId);
+        return educationInfoToDto(educationInformation);
 
+    }
+    @Override
+    public List<EducationInformationDto> getEducationInfoByBasicInfoId(Short basicInfoId) {
+        return  toDto(educationInformationRepo.findEducationInformationByBasicInformation(new BasicInformation(basicInfoId)));
     }
 
     @Override
@@ -85,7 +90,7 @@ public class EducationInformationServiceImpl implements EducationInformationServ
         // Convert entities to DTOs
         List<EducationInformationDto> dtos = new ArrayList<>();
         for (EducationInformation educationInformation : educationInformationList) {
-            dtos.add(educationInfoToDto(educationInformation, null));
+            dtos.add(educationInfoToDto(educationInformation));
         }
         return dtos;
     }
@@ -110,7 +115,7 @@ public class EducationInformationServiceImpl implements EducationInformationServ
         return educationInformation;
     }
 
-    public EducationInformationDto educationInfoToDto(EducationInformation educationInformation, Short basicInfoId) {
+    public EducationInformationDto educationInfoToDto(EducationInformation educationInformation) {
 
         BasicInformationDto basicInformationDto = new BasicInformationDto();
 
@@ -141,4 +146,10 @@ public class EducationInformationServiceImpl implements EducationInformationServ
 
         return educationInformationDto;
     }
+
+    public List<EducationInformationDto> toDto(List<EducationInformation> educationInformationList){
+        return educationInformationList.stream().map(this::educationInfoToDto).collect(Collectors.toList());
+    }
+
+
 }

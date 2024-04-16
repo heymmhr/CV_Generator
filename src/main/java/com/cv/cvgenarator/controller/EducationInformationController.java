@@ -86,4 +86,11 @@ public class EducationInformationController extends BaseController{
                         .get(messageCode)), educationInformationService.getAllEducationInformation()), HttpStatus.OK);
 
     }
+
+    @GetMapping("/by-basic-id/{basic-info-id}")
+    public ResponseEntity<ResponseDto> getEducationByBasicId(@PathVariable("basic-info-id") Short basicInfoId){
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET, customMessageSource
+                        .get(messageCode)),educationInformationService.getEducationInfoByBasicInfoId(basicInfoId)),HttpStatus.OK);
+    }
 }

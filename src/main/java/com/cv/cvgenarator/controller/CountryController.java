@@ -1,9 +1,13 @@
 package com.cv.cvgenarator.controller;
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.BasicInformationDto;
 import com.cv.cvgenarator.dto.CountryDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.CountryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,21 +15,24 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/country")
-public class CountryController {
+public class CountryController extends BaseController{
 
     private final CountryService countryService;
+    private final CustomMessageSource customMessageSource;
 
-    public CountryController(CountryService countryService) {
+    public CountryController(CountryService countryService, CustomMessageSource customMessageSource) {
         this.countryService = countryService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.COUNTRY;
     }
 
     //create
     @PostMapping("/save")
     public ResponseEntity<ResponseDto> createCountry(@RequestBody CountryDto countryDto) {
 
-        CountryDto country = countryService.createCountry(countryDto);
-        return ResponseEntity.ok
-                (new ResponseDto("Country Created successfully!!: देशहरू सफलतापूर्वक सिर्जना गरियो |", true, country));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), countryService
+                .createCountry(countryDto)), HttpStatus.OK);
     }
 
     // update
@@ -33,9 +40,9 @@ public class CountryController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto> updateCountry(@RequestBody CountryDto countryDto, @PathVariable Short id) {
 
-        CountryDto updateCountry = countryService.updateCountry(countryDto, id);
-        return ResponseEntity.ok
-                (new ResponseDto("Country Updated Successfully!! : देशहरू सफलतापूर्वक अद्यावधिक गरियो |", true, updateCountry));
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_UPDATE, customMessageSource
+                        .get(MessageCodeConstant.COUNTRY)), countryService.updateCountry(countryDto, id)), HttpStatus.OK);
     }
 
     // delete
@@ -44,8 +51,8 @@ public class CountryController {
     public ResponseEntity<ResponseDto> deleteCountry(@PathVariable Short id) {
 
         countryService.deleteCountry(id);
-        return ResponseEntity.ok
-                (new ResponseDto("Country Deleted Successfully!! : देशहरू सफलतापूर्वक मेटियो", true, null));
+        return ResponseEntity.ok(
+                successResponse(customMessageSource.get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get
@@ -53,9 +60,12 @@ public class CountryController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getCountryId(@PathVariable Short id) {
 
-        CountryDto countryById = countryService.getCountryById(id);
-        return ResponseEntity.ok
-                (new ResponseDto("Country extracted by id!! : id द्वारा निकालिएको देशहरू |", true, countryById));
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET, customMessageSource
+                        .get(MessageCodeConstant.COUNTRY)), countryService.getCountryById(id)), HttpStatus.OK);
     }
 
     // get all user
@@ -63,8 +73,8 @@ public class CountryController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllCountry() {
 
-        List<CountryDto> allCountry = countryService.getAllCountries();
-        return ResponseEntity.ok
-                (new ResponseDto("All Country extracted!! : सबै देशहरू निकालियो |", true, allCountry));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), countryService.getAllCountries()), HttpStatus.OK);
     }
 }

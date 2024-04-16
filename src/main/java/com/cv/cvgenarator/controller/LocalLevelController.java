@@ -1,6 +1,9 @@
 package com.cv.cvgenarator.controller;
 
 
+import com.cv.cvgenarator.config.CustomMessageSource;
+import com.cv.cvgenarator.constants.MessageCodeConstant;
+import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.DistrictDto;
 import com.cv.cvgenarator.dto.LocalLevelDto;
 import com.cv.cvgenarator.dto.ResponseDto;
@@ -13,12 +16,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/local-level")
-public class LocalLevelController {
+public class LocalLevelController extends BaseController{
 
     private final LocalLevelService localLevelService;
 
-    public LocalLevelController(LocalLevelService localLevelService) {
+    private final CustomMessageSource customMessageSource;
+
+    public LocalLevelController(LocalLevelService localLevelService, CustomMessageSource customMessageSource) {
         this.localLevelService = localLevelService;
+        this.customMessageSource = customMessageSource;
+        this.messageCode = MessageCodeConstant.LOCAL_LEVEL;
     }
 
     //create
@@ -26,9 +33,9 @@ public class LocalLevelController {
     public ResponseEntity<ResponseDto> createLocalLevel(@RequestBody LocalLevelDto localLevelDto,
                                                       @PathVariable("district-id") Short districtId){
 
-        LocalLevelDto createdLocalLevel = localLevelService.createLocalLevel(localLevelDto, districtId);
-        return ResponseEntity.ok(new ResponseDto
-                ("LocalLevel Created successfully!!: स्थानीय तह सफलतापूर्वक सिर्जना गरियो |", true, createdLocalLevel ));
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), localLevelService
+                .createLocalLevel(localLevelDto,districtId)), HttpStatus.OK);
 
     }
 
@@ -52,8 +59,8 @@ public class LocalLevelController {
     public ResponseEntity<ResponseDto> deleteLocalLevel(@PathVariable Short id) {
 
         localLevelService.deleteLocalLevel(id);
-        return ResponseEntity.ok(new
-                ResponseDto("LocalLevel Deleted Successfully!! : स्थानीय तह सफलतापूर्वक मेटियो", true, null));
+        return ResponseEntity.ok(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get by id
@@ -61,12 +68,12 @@ public class LocalLevelController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getLocalLevelById(@PathVariable Short id) {
 
-        LocalLevelDto localLevelById = localLevelService.getLocalLevelById(id);
-
-        return localLevelById != null ?
-                ResponseEntity.ok(new ResponseDto
-                        ("LocalLevel extracted by id!! : id द्वारा निकालिएको स्थानीय तह |", true, localLevelById)):
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (id == null) {
+            throw new NullPointerException("Id is null");
+        }
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_GET, customMessageSource.get(MessageCodeConstant.LOCAL_LEVEL)), localLevelService
+                .getLocalLevelById(id)), HttpStatus.OK);
     }
 
     // get all user
@@ -74,9 +81,13 @@ public class LocalLevelController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllLocalLevel() {
 
-        List<LocalLevelDto> allDistrict = localLevelService.getAllLocalLevel();
+       /* List<LocalLevelDto> allDistrict = localLevelService.getAllLocalLevel();
         return ResponseEntity.ok
                 (new ResponseDto
-                        ("LocalLevel extracted!! : सबै स्थानीय तह निकालियो |", true, allDistrict));
+                        ("LocalLevel extracted!! : सबै स्थानीय तह निकालियो |", true, allDistrict));*/
+
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET_ALL, customMessageSource
+                        .get(messageCode)), localLevelService.getAllLocalLevel()), HttpStatus.OK);
     }
 }

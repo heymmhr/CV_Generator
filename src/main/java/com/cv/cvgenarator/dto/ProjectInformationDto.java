@@ -15,7 +15,7 @@ public class ProjectInformationDto {
 
     private Short id;
 
-    private ExperienceInformationDto experienceInformation;
+    private Short experienceInformationId;
 
     private String projectName;
 
