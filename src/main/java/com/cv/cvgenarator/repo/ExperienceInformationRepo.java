@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ExperienceInformationRepo extends JpaRepository<ExperienceInformation,Short> {
 
-    List<ExperienceInformation> findExperienceInformationByBasicInformation(BasicInformation basicInformation);
+    List<ExperienceInformation> findExperienceInformationByBasicInformationId(Short basicInfoId);
 }

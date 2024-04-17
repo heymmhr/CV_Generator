@@ -6,27 +6,36 @@ import com.cv.cvgenarator.entity.LocalLevel;
 import com.cv.cvgenarator.entity.Province;
 import com.cv.cvgenarator.enums.AddressType;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddressInformationDto {
 
     private Short id;
 
+    @NotNull(message = "Address type is required")
     private AddressType addressType;
 
-    private BasicInformationDto basicInformation;
+    @NotNull(message = "Basic information ID is required")
+    private Short basicInformationId;
 
-   /* private Province province;
+    @NotNull(message = "Province ID is required")
+    private Short provinceId;
 
-    private District district;*/
+    @NotNull(message = "Country ID is required")
+    private Short countryId;
 
-    private LocalLevelDto localLevel;
+    @NotNull(message = "District ID is required")
+    private Short districtId;
+
+    @NotNull(message = "Locallevel ID is required")
+    private Short localLevelId;
 
     private IdNameDto country;
     private IdNameDto province;

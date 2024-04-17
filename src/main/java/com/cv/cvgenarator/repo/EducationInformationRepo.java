@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface EducationInformationRepo extends JpaRepository<EducationInformation,Short> {
-    List<EducationInformation> findEducationInformationByBasicInformation(BasicInformation basicInformation);
+    List<EducationInformation> findEducationInformationByBasicInformation_Id(Short basicInfoId);
 }

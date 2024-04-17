@@ -7,8 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IdNameDto {
+public class EnumDto {
 
-    private Short id;
-    private String name;
+    private String key;
 }

@@ -1,6 +1,5 @@
 package com.cv.cvgenarator.service.impl;
 
-import com.cv.cvgenarator.repo.BasicInformationRepo;
 import com.cv.cvgenarator.service.FileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,20 +20,21 @@ public class FileServiceImpl implements FileService {
 
         //to generate random name
         String randomID = UUID.randomUUID().toString();
-        String fileName1 = randomID.concat(name.substring(name.lastIndexOf(".")));
+//        String fileName1 = randomID.concat(name.substring(name.lastIndexOf(".")));
 
+        String finalFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         // Full path
-        String filePath = path + File.separator + UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String filePath = path + File.separator + finalFileName;
 
         //create folder if not created
         File f = new File(path);
-        if (!f.exists()){
+        if (!f.exists()) {
             f.mkdirs();
         }
 
         //file copy
         Files.copy(file.getInputStream(), Paths.get(filePath));
-        return name;
+        return finalFileName;
     }
 
     @Override

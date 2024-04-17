@@ -1,43 +1,32 @@
 package com.cv.cvgenarator.enums;
 
+import com.cv.cvgenarator.dto.EnumDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public enum DegreeName {
 
-    SCHOOL,
-    HIGH_SCHOOL,
-    BACHELORS,
-    MASTERS,
-    PHD;
+    SCHOOL("SCHOOL"),
+    HIGH_SCHOOL("HIGH_SCHOOL"),
+    BACHELORS("BACHELORS"),
+    MASTERS("MASTERS"),
+    PHD("PHD");
 
-    private Integer key;
-    private String value;
+    private final String key;
 
-
-    public static DegreeName findByKey(Integer key) throws ChangeSetPersister.NotFoundException {
-        for (DegreeName status : DegreeName.values()) {
-            if (status.key.equals(key)) {
-                return status;
-            }
-        }
-        throw new ChangeSetPersister.NotFoundException();
+    DegreeName(String key) {
+        this.key = key;
     }
 
-    public static DegreeName findByValue(String value) throws ChangeSetPersister.NotFoundException {
-        for (DegreeName status : DegreeName.values()) {
-            if (status.value.equals(value)) {
-                return status;
-            }
-        }
-        throw new ChangeSetPersister.NotFoundException();
-
+    public static List<EnumDto> getDegreeName() {
+        return Arrays.stream(DegreeName.values()).map(degreeName -> new EnumDto(degreeName.key)).collect(Collectors.toList());
     }
 
 }

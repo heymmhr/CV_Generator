@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/index")
 public class IndexController extends BaseController {
@@ -35,7 +37,7 @@ public class IndexController extends BaseController {
     }
 
     @GetMapping("/generateHtml/{id}")
-    public ResponseEntity<String> generateHtml(@PathVariable Short id) {
+    public ResponseEntity<String> generateHtml(@PathVariable Short id) throws IOException {
 
         return  ResponseEntity.ok(pdfGenerateService.getAllInformation(id));
     }

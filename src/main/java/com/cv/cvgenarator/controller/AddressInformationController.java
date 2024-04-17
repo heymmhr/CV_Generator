@@ -26,14 +26,13 @@ public class AddressInformationController extends BaseController{
     }
 
     //create
-    @PostMapping("/basic-info/{basic-info-id}/{local-level-id}/address")
+    @PostMapping("/basic-info/{basic-info-id}/address")
     public ResponseEntity<ResponseDto> createAddressInfo(@RequestBody AddressInformationDto addressInformationDto,
-                                                         @PathVariable("basic-info-id") Short basicInfoId,
-                                                         @PathVariable ("local-level-id") Short localLevelId) {
+                                                         @PathVariable("basic-info-id") Short basicInfoId) {
 
         return new ResponseEntity<>(successResponse(customMessageSource
                 .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), addressInformationService
-                .createAddressInformation(addressInformationDto,basicInfoId,localLevelId)), HttpStatus.OK);
+                .createAddressInformation(addressInformationDto,basicInfoId)), HttpStatus.OK);
     }
 
     // update
@@ -78,4 +77,15 @@ public class AddressInformationController extends BaseController{
                 .get(MessageConstant.CRUD_GET_ALL, customMessageSource
                         .get(messageCode)), addressInformationService.getAllAddress()), HttpStatus.OK);
     }
+
+    // get by basicId
+
+    @GetMapping("/by-basic-info-id/{basic-info-id}")
+    public ResponseEntity<ResponseDto> getByBasicInfoId(@PathVariable("basic-info-id") Short basicInfoId){
+
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET, customMessageSource
+                        .get(messageCode)), addressInformationService.getAddressInfoByBasicInfoId(basicInfoId)), HttpStatus.OK);
+    }
+
 }

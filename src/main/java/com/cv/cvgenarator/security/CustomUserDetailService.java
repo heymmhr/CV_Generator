@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailService implements UserDetailsService {
 
     private final UserRepo userRepo;
-
     public CustomUserDetailService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }

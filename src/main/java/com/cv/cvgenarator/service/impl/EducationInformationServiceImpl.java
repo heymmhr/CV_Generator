@@ -79,7 +79,7 @@ public class EducationInformationServiceImpl implements EducationInformationServ
     }
     @Override
     public List<EducationInformationDto> getEducationInfoByBasicInfoId(Short basicInfoId) {
-        return  toDto(educationInformationRepo.findEducationInformationByBasicInformation(new BasicInformation(basicInfoId)));
+        return  toDto(educationInformationRepo.findEducationInformationByBasicInformation_Id(basicInfoId));
     }
 
     @Override
@@ -142,7 +142,7 @@ public class EducationInformationServiceImpl implements EducationInformationServ
         educationInformationDto.setToPresent(educationInformation.getToPresent());
         educationInformationDto.setDegreeName(educationInformation.getDegreeName());
         educationInformationDto.setEducationDescription(educationInformation.getEducationDescription());
-        educationInformationDto.setBasicInformation(basicInformationDto);
+        //educationInformationDto.setBasicInformation(basicInformationDto);
 
         return educationInformationDto;
     }

@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Province {
 
     @Id
@@ -34,4 +35,8 @@ public class Province {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "fk_province_country_id"))
     private Country country;
+
+    public Province(Short id){
+        this.id = id;
+    }
 }

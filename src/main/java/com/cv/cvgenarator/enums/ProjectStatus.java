@@ -1,41 +1,33 @@
 package com.cv.cvgenarator.enums;
 
+import com.cv.cvgenarator.dto.EnumDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 
 public enum ProjectStatus {
 
-    LIVE,
-    UAT,
-    DEVELOPMENT;
+    LIVE("LIVE"),
+    UAT("UAT"),
+    DEVELOPMENT("DEVELOPMENT");
 
-    private Integer key;
-    private String value;
+    private final String key;
 
-
-    public static ProjectStatus findByKey(Integer key) throws ChangeSetPersister.NotFoundException {
-        for (ProjectStatus status : ProjectStatus.values()) {
-            if (status.key.equals(key)) {
-                return status;
-            }
-        }
-        throw new ChangeSetPersister.NotFoundException();
+    ProjectStatus(String key) {
+        this.key = key;
     }
 
-    public static ProjectStatus findByValue(String value) throws ChangeSetPersister.NotFoundException {
-        for (ProjectStatus status : ProjectStatus.values()) {
-            if (status.value.equals(value)) {
-                return status;
-            }
-        }
-        throw new ChangeSetPersister.NotFoundException();
 
+    //TODO dropdown list api
+    public static List<EnumDto> getProjectStatusList(){
+        return Arrays.stream(ProjectStatus.values()).map(projectStatus -> new EnumDto(projectStatus.key)).collect(Collectors.toList());
     }
 }

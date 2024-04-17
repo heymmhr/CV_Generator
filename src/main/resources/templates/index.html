@@ -150,21 +150,34 @@
             <ul>
                 <li><span th:text="${education.getDegreeName()}"></span></li>
                 <li style="margin-bottom: 1rem;"><span th:text="${education.getInstitutionName()}"></span></li>
+                <li style="margin-bottom: 1rem;"><span th:text="${education.getInstitutionAddress()}"></span></li>
+                <li style="margin-bottom: 1rem;">
+                <span th:text=" '('+${education.getFromDate() +' to ' + (education.getToPresent() ? ' Present' : education.getToDate())} +')' "></span>
+                </li>
             </ul>
+
             </span>
         </div>
-       <!-- <div class="profesional_skill">
+        <div class="profesional_skill">
             <h2 style="margin: 0; padding: 0;">Reach me At</h2>
             <ul>
-                <li style="margin-bottom: 1rem;">Balambu | chandragiri 12 -kathmandu</li>
-                <li style=" margin-bottom: 1rem;">+977-9875421588 | viber | whatsapp</li>
-                <li style="margin-bottom: 1rem;">lightsuraj@gmail.com</li>
+                <div th:each ="address:${addressInformationDtos}">
+                    <li style="margin-bottom: 1rem;">
+                        <label th:text = "${address.getDistrict().getName()}"></label> |
+                        <label th:text = "${address.getProvince().getName()}"></label>
+                        -<label th:text = "${address.getCountry().getName()}"></label>
+                        (<label th:text = "${address.getAddressType()}"></label> )
+                    </li>
+                    <li style=" margin-bottom: 1rem;">+977-<label th:text="${basicInformationDto.getMobileNumber()}"></label> | viber | whatsapp</li>
+                    <li style="margin-bottom: 1rem;text-transform: lowercase;"><label th:text="${basicInformationDto.getEmail()}"></label> </li>
+                </div>
+
             </ul>
-        </div>-->
+        </div>
     </div>
     <div class="container_child_2">
-        <h1 class="name"><span
-                th:text="${ basicInformationDto.getFirstName() + ' '+basicInformationDto.getMiddleName() +' '+ basicInformationDto.getLastName() }"></span>
+        <h1 class="name">
+            <span th:text="${ basicInformationDto.getFirstName() + ' '+basicInformationDto.getMiddleName() +' '+ basicInformationDto.getLastName() }"></span>
         </h1>
         <div class="degination">
             <p><span th:text="${basicInformationDto.getTitle()}"></span></p>
@@ -174,7 +187,7 @@
             <!-- repeate through loop -->
             <div style="margin-bottom: 0.5rem;" th:each="experience : ${experienceInformationDtos}">
                 <h4 style="margin: 0; padding: 0;">
-                    <!--                    Senior Software Developer  | Team Lead (May 26th 2019 to presetn)-->
+                    <!--                    Senior Software Developer  | Team Lead (May 26th 2019 to present)-->
                     <span th:text=" '('+${experience.getFromDate() +' to' + (experience.getToPresent() ? ' Present' : experience.getToDate())} +')' "></span>
                 </h4>
                 <ul style="padding:0;padding-left:1rem; margin: 0;list-style-type: disc; font-style: italic;">
@@ -191,26 +204,18 @@
 
             <!-- repeate through loop -->
             <div class="currently_running_project_child" th:each="project : ${projectInformationDtos}">
-                <div th:if="${project.getProjectStatus().name() == 'LIVE'}">
+                <div >
                     <h3><span th:text="${project.getProjectName()}"></span></h3>
+                    <p>Project Status: <span th:text="${project.getProjectStatus().name()}"></span></p>
                     <div style="margin-bottom: 0;">
                         <ul style="padding:0;padding-left:1rem; margin: 0;list-style-type: disc; font-weight: bold;">
                             <li> Role: <span th:text="${project.getProjectRole()}"></span></li>
                             <li> Description: <span th:text="${project.getProjectDescription()}"></span></li>
-                            <li> link: <span th:text="${project.getProjectUrl()}"></span></li>
+                            <li> TechStack: <span th:text="${project.getTechStack()}"></span></li>
+                            <li> Project Url: <a href="#"><span th:text="${project.getProjectUrl()}"></span></a></li>
                         </ul>
                     </div>
                 </div>
-                <div th:unless="${project.getProjectStatus().name()== 'LIVE'}">
-                    <h3><span th:text="${project.getProjectName()}"></span></h3>
-                    <div style="margin-bottom: 0;">
-                        <ul style="padding:0;padding-left:1rem; margin: 0;list-style-type: disc; font-weight: bold;">
-                            <li> Role: <span th:text="${project.getProjectRole()}"></span></li>
-                            <li> Description: <span th:text="${project.getProjectDescription()}"></span></li>
-                            <li> link: <span th:text="${project.getProjectUrl()}"></span></li>
-                            <li> ProjectStatus: <span th:text="${project.getProjectStatus()}"></span></li>
-                        </ul>
-                    </div>
 
                 </div>
             </div>

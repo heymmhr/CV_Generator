@@ -26,12 +26,24 @@ public class AddressInformation {
     @Column(name = "address_type", length = 100)
     private AddressType addressType;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "basic_id", foreignKey = @ForeignKey(name = "fk_addressinfo_basicinfo_id"))
     private BasicInformation basicInformation;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "localbody_id", foreignKey = @ForeignKey (name = "fk_addressinfo_localevel_id"))
     private LocalLevel localLevel;
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Province.class)
+    @JoinColumn(name = "province_id", foreignKey = @ForeignKey(name = "fk_addressinfo_province_id"))
+    private Province province;
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
+    @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "addressinfo_country_id"))
+    private Country country;
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = District.class)
+    @JoinColumn(name = "district_id", foreignKey = @ForeignKey(name = "addressinfo_district_id"))
+    private District district;
 }

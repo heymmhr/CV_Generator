@@ -28,4 +28,7 @@ public class Country {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
+    public Country(Short id){
+        this.id = id;
+    }
 }

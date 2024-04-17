@@ -96,7 +96,7 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
 
     @Override
     public List<ExperienceInformationDto> getExperienceInfoByBasicInfoId(Short basicInfoId) {
-        return toDto(experienceInformationRepo.findExperienceInformationByBasicInformation(new BasicInformation(basicInfoId)));
+        return toDto(experienceInformationRepo.findExperienceInformationByBasicInformationId(basicInfoId));
     }
 
 
@@ -143,7 +143,7 @@ public class ExperienceInformationServiceImpl implements ExperienceInformationSe
             experienceInformationDto.setFromDate(experienceInformation.getFromDate());
             experienceInformationDto.setToDate(experienceInformation.getToDate());
             experienceInformationDto.setToPresent(experienceInformation.getToPresent());
-            experienceInformationDto.setBasicInformation(basicInformationDto);
+            //experienceInformationDto.setBasicInformation(basicInformationDto);
 
             return experienceInformationDto;
 

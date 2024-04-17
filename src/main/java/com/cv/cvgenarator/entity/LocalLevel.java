@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class LocalLevel {
 
     @Id
@@ -38,6 +39,10 @@ public class LocalLevel {
 
     @Column(name = "total_ward_count")
     private Integer totalWardCount;
+
+    public LocalLevel(Short id){
+        this.id = id;
+    }
 
 
 }

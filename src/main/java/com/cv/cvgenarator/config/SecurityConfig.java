@@ -25,7 +25,6 @@ public class SecurityConfig {
     private final CustomUserDetailService customUserDetailService;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;

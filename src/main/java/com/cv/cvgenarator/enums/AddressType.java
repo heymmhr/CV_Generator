@@ -1,37 +1,26 @@
 package com.cv.cvgenarator.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import com.cv.cvgenarator.dto.EnumDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Getter
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum AddressType {
 
-    PERMANENT,
-    TEMPORARY;
+    PERMANENT("PERMANENT"),
+    TEMPORARY("TEMPORARY");
 
-    private Integer key;
-    private String value;
+    private final String key;
 
-
-    public static AddressType findByKey(Integer key) throws ChangeSetPersister.NotFoundException {
-        for (AddressType status : AddressType.values()) {
-            if (status.key.equals(key)) {
-                return status;
-            }
-        }
-        throw new ChangeSetPersister.NotFoundException();
+    AddressType(String key) {
+        this.key = key;
     }
 
-    public static AddressType findByValue(String value) throws ChangeSetPersister.NotFoundException {
-        for (AddressType status : AddressType.values()) {
-            if (status.value.equals(value)) {
-                return status;
-            }
-        }
-        throw new ChangeSetPersister.NotFoundException();
 
+    public static List<EnumDto> getAddressTypeList() {
+        return Arrays.stream(AddressType.values()).map(addressType -> new EnumDto(addressType.key)).collect(Collectors.toList());
     }
 }

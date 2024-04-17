@@ -1,9 +1,6 @@
 package com.cv.cvgenarator.service.impl;
 
-import com.cv.cvgenarator.dto.AddressInformationDto;
-import com.cv.cvgenarator.dto.BasicInformationDto;
-import com.cv.cvgenarator.dto.IdNameDto;
-import com.cv.cvgenarator.dto.LocalLevelDto;
+import com.cv.cvgenarator.dto.*;
 import com.cv.cvgenarator.entity.*;
 import com.cv.cvgenarator.exceptions.ResourceNotFoundException;
 import com.cv.cvgenarator.repo.AddressInformationRepo;
@@ -14,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressInformationServiceImpl implements AddressInformationService {
@@ -35,10 +33,10 @@ public class AddressInformationServiceImpl implements AddressInformationService 
 
 
     @Override
-    public AddressInformationDto createAddressInformation(AddressInformationDto addressInformationDto, Short basicId, Short localLevelId) {
-        AddressInformation addressInformation = dtoToAddressInfo(addressInformationDto, basicId, localLevelId);
+    public AddressInformationDto createAddressInformation(AddressInformationDto addressInformationDto, Short basicInformationId) {
+        AddressInformation addressInformation = dtoToAddressInfo(addressInformationDto, basicInformationId);
         AddressInformation createAddress = addressInformationRepo.save(addressInformation);
-        return addressInfoToDto(createAddress, basicId, localLevelId);
+        return addressInfoToDto(createAddress);
     }
 
     @Override
@@ -82,24 +80,25 @@ public class AddressInformationServiceImpl implements AddressInformationService 
         return allAddressInformationDto;
     }
 
-    public AddressInformation dtoToAddressInfo(AddressInformationDto addressInformationDto, Short basicId, Short localLevelId) {
+    @Override
+    public List<AddressInformationDto> getAddressInfoByBasicInfoId(Short basicInfoId) {
+        return toDto(addressInformationRepo.findAddressInformationByBasicInformationId(basicInfoId));
+    }
 
-        BasicInformation basicInformation = basicInformationRepo.findById(basicId)
-                .orElseThrow(() -> new ResourceNotFoundException("Basic Information", "Id", basicId));
-
-        LocalLevel localLevel = localLevelRepo.findById(localLevelId)
-
-                .orElseThrow(() -> new ResourceNotFoundException("Local Level", "Id", localLevelId));
+    public AddressInformation dtoToAddressInfo(AddressInformationDto addressInformationDto, Short basicId) {
 
         AddressInformation addressInformation = new AddressInformation();
         addressInformation.setId(addressInformationDto.getId());
-        addressInformation.setBasicInformation(basicInformation);
+        addressInformation.setBasicInformation(new BasicInformation(basicId));
         addressInformation.setAddressType(addressInformationDto.getAddressType());
-        addressInformation.setLocalLevel(localLevel);
+        addressInformation.setLocalLevel(new LocalLevel(addressInformationDto.getLocalLevelId()));
+        addressInformation.setDistrict(new District(addressInformationDto.getDistrictId()));
+        addressInformation.setProvince(new Province(addressInformationDto.getProvinceId()));
+        addressInformation.setCountry(new Country(addressInformationDto.getCountryId()));
         return addressInformation;
     }
 
-    public AddressInformationDto addressInfoToDto(AddressInformation addressInformation, Short basicId, Short localLevelId) {
+    public AddressInformationDto addressInfoToDto(AddressInformation addressInformation) {
 
         BasicInformationDto basicInformationDto = new BasicInformationDto();
 
@@ -123,14 +122,18 @@ public class AddressInformationServiceImpl implements AddressInformationService 
 
         AddressInformationDto addressInformationDto = new AddressInformationDto();
         addressInformationDto.setId(addressInformation.getId());
-        addressInformationDto.setBasicInformation(basicInformationDto);
         addressInformationDto.setAddressType(addressInformation.getAddressType());
-        addressInformationDto.setLocalLevel(localLevelDto);
         addressInformationDto.setLocal(getLocal(addressInformation.getLocalLevel()));
+        addressInformationDto.setDistrict(getDistrict(addressInformation.getDistrict()));
+        addressInformationDto.setProvince(getProvince(addressInformation.getProvince()));
+        addressInformationDto.setCountry(getCountry(addressInformation.getCountry()));
 
         return addressInformationDto;
     }
 
+    public List<AddressInformationDto> toDto(List<AddressInformation> addressInformationList){
+        return addressInformationList.stream().map(this::addressInfoToDto).collect(Collectors.toList());
+    }
     private IdNameDto getLocal(LocalLevel entity){
         if(entity == null)
             return null;
@@ -139,6 +142,23 @@ public class AddressInformationServiceImpl implements AddressInformationService 
     }
 
     private IdNameDto getDistrict(District entity){
-        return null;
+        if(entity == null)
+            return null;
+
+        return IdNameDto.builder().id(entity.getId()).name(entity.getName()).build();
+    }
+
+    private IdNameDto getProvince(Province entity){
+        if(entity == null)
+            return null;
+
+        return IdNameDto.builder().id(entity.getId()).name(entity.getName()).build();
+    }
+
+    private IdNameDto getCountry(Country entity){
+        if(entity == null)
+            return null;
+
+        return IdNameDto.builder().id(entity.getId()).name(entity.getName()).build();
     }
 }
