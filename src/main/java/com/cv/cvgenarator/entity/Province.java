@@ -10,7 +10,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "fl_province")
+@Table(name = "fl_province", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_province_name_nameNepali_code", columnNames = {"name","name_n","code"})
+})
 @Getter
 @Setter
 @NoArgsConstructor

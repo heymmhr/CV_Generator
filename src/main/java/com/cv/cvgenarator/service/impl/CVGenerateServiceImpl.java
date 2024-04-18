@@ -20,7 +20,9 @@ import org.xhtmlrenderer.render.ViewportBox;
 
 import java.io.*;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CVGenerateServiceImpl implements CVGenerateService {
@@ -47,11 +49,10 @@ public class CVGenerateServiceImpl implements CVGenerateService {
 
     public ByteArrayOutputStream generatePdf(Short id) {
 
-        String htmlContent = null;
+        Map<String, String> htmlContent = null;
         try {
             htmlContent = getAllInformation(id);
-            String fileName = "test.pdf";
-            return generatePdfFromHtml(htmlContent, fileName);
+            return generatePdfFromHtml(htmlContent.get("html"), htmlContent.get("fileName"));
         } catch (Exception e) {
             e.printStackTrace();
             // Handle the exception as needed
@@ -60,7 +61,7 @@ public class CVGenerateServiceImpl implements CVGenerateService {
     }
 
     @Override
-    public String getAllInformation(Short id) throws IOException {
+    public Map<String, String> getAllInformation(Short id) throws IOException {
         BasicInformationDto basicInformationDto = basicInformationService.getBasicInformationById(id);
         basicInformationDto.setProfileImage(imgToBase64(basicInformationDto.getProfileImage()));
 
@@ -76,7 +77,11 @@ public class CVGenerateServiceImpl implements CVGenerateService {
         context.setVariable("projectInformationDtos", projectInformationDtos);
         context.setVariable("addressInformationDtos", addressInformationDtos);
 
-        return templateEngine.process("index", context);
+        Map<String, String> map = new HashMap<>();
+        map.put("html", templateEngine.process("index", context));
+        map.put("fileName", basicInformationDto.getFirstName().concat(".pdf"));
+
+        return map;
     }
 
     private ByteArrayOutputStream generatePdfFromHtml(String html, String fileName) throws Exception {

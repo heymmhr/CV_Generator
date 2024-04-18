@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,8 @@
         .profile_pic_wrapper {
             display: flex;
             justify-content: center;
+            overflow: hidden;
+            border-radius: 24px;
         }
 
         .profile_pic {
@@ -38,12 +40,12 @@
 
         .container_child_1 {
             background-color: gray;
-            width: 30%;
+            /*width: 30%;*/
             padding: 0.5rem;
         }
 
         .container_child_2 {
-            width: 70%;
+            /*width: 70%;*/
         }
 
         .degination {
@@ -124,29 +126,35 @@
 </head>
 <body class="wrapper">
 <div class="container">
-    <div class="container_child_1">
-        <div class="profile_pic_wrapper">
-            <img th:src="${basicInformationDto.getProfileImage()}" class="profile_pic" alt="">
-        </div>
-        <div class="background">
-            <h2>My Background</h2>
-            <p>
-                <span th:text="${basicInformationDto.getBackground()}"></span>
-            </p>
-        </div>
-      <!--  <div class="profesional_skill">
-            <h2 style="margin: 0; padding: 0;">Professional Skill</h2>
-            <ul>
-                <li>Spring Framework</li>
-                <li>Spring MVC | Spring Boot</li>
-                <li>Monolith</li>
-            </ul>
-        </div>-->
 
-        <!-- education -->
-        <div class="profesional_skill" >
-            <h2 style="margin: 0; padding: 0;">Education</h2>
-            <span th:each="education : ${educationInformationDtos}">
+
+
+<table  style="width: 100%">
+    <tr>
+        <td  style="width: 30%;background-color: dimgray">
+            <div >
+                <div class="profile_pic_wrapper">
+                    <img th:src="${basicInformationDto.getProfileImage()}" width="100" class="profile_pic" style="border-radius: 1200px" alt="">
+                </div>
+                <div class="background">
+                    <h2>My Background</h2>
+                    <p>
+                        <span th:text="${basicInformationDto.getBackground()}"></span>
+                    </p>
+                </div>
+                <!--  <div class="profesional_skill">
+                      <h2 style="margin: 0; padding: 0;">Professional Skill</h2>
+                      <ul>
+                          <li>Spring Framework</li>
+                          <li>Spring MVC | Spring Boot</li>
+                          <li>Monolith</li>
+                      </ul>
+                  </div>-->
+
+                <!-- education -->
+                <div class="profesional_skill" >
+                    <h2 style="margin: 0; padding: 0;">Education</h2>
+                    <span th:each="education : ${educationInformationDtos}">
             <ul>
                 <li><span th:text="${education.getDegreeName()}"></span></li>
                 <li style="margin-bottom: 1rem;"><span th:text="${education.getInstitutionName()}"></span></li>
@@ -157,73 +165,78 @@
             </ul>
 
             </span>
-        </div>
-        <div class="profesional_skill">
-            <h2 style="margin: 0; padding: 0;">Reach me At</h2>
-            <ul>
-                <div th:each ="address:${addressInformationDtos}">
-                    <li style="margin-bottom: 1rem;">
-                        <label th:text = "${address.getDistrict().getName()}"></label> |
-                        <label th:text = "${address.getProvince().getName()}"></label>
-                        -<label th:text = "${address.getCountry().getName()}"></label>
-                        (<label th:text = "${address.getAddressType()}"></label> )
-                    </li>
-                    <li style=" margin-bottom: 1rem;">+977-<label th:text="${basicInformationDto.getMobileNumber()}"></label> | viber | whatsapp</li>
-                    <li style="margin-bottom: 1rem;text-transform: lowercase;"><label th:text="${basicInformationDto.getEmail()}"></label> </li>
                 </div>
+                <div class="profesional_skill">
+                    <h2 style="margin: 0; padding: 0;">Reach me At</h2>
+                    <ul>
+                        <div th:each ="address:${addressInformationDtos}">
+                            <li style="margin-bottom: 1rem;">
+                                <label th:text = "${address.getDistrict().getName()}"></label> |
+                                <label th:text = "${address.getProvince().getName()}"></label>
+                                -<label th:text = "${address.getCountry().getName()}"></label>
+                                (<label th:text = "${address.getAddressType()}"></label> )
+                            </li>
+                            <li style=" margin-bottom: 1rem;">+977-<label th:text="${basicInformationDto.getMobileNumber()}"></label> | viber | whatsapp</li>
+                            <li style="margin-bottom: 1rem;text-transform: lowercase;"> Email: <label th:text="${basicInformationDto.getEmail()}"></label> </li>
+                        </div>
 
-            </ul>
-        </div>
-    </div>
-    <div class="container_child_2">
-        <h1 class="name">
-            <span th:text="${ basicInformationDto.getFirstName() + ' '+basicInformationDto.getMiddleName() +' '+ basicInformationDto.getLastName() }"></span>
-        </h1>
-        <div class="degination">
-            <p><span th:text="${basicInformationDto.getTitle()}"></span></p>
-        </div>
-        <div class="work_background_wrapper">
-            <h3>Work Background</h3>
-            <!-- repeate through loop -->
-            <div style="margin-bottom: 0.5rem;" th:each="experience : ${experienceInformationDtos}">
-                <h4 style="margin: 0; padding: 0;">
-                    <!--                    Senior Software Developer  | Team Lead (May 26th 2019 to present)-->
-                    <span th:text=" '('+${experience.getFromDate() +' to' + (experience.getToPresent() ? ' Present' : experience.getToDate())} +')' "></span>
-                </h4>
-                <ul style="padding:0;padding-left:1rem; margin: 0;list-style-type: disc; font-style: italic;">
-                    <li><span th:text="${experience.getCompanyName()}"></span>
-                    </li>
-                </ul>
+                    </ul>
+                </div>
             </div>
-
-        </div>
-        <!-- currently running project -->
-
-        <div class="currently_running_project">
-            <h2>Current Running Project</h2>
-
-            <!-- repeate through loop -->
-            <div class="currently_running_project_child" th:each="project : ${projectInformationDtos}">
-                <div >
-                    <h3><span th:text="${project.getProjectName()}"></span></h3>
-                    <p>Project Status: <span th:text="${project.getProjectStatus().name()}"></span></p>
-                    <div style="margin-bottom: 0;">
-                        <ul style="padding:0;padding-left:1rem; margin: 0;list-style-type: disc; font-weight: bold;">
-                            <li> Role: <span th:text="${project.getProjectRole()}"></span></li>
-                            <li> Description: <span th:text="${project.getProjectDescription()}"></span></li>
-                            <li> TechStack: <span th:text="${project.getTechStack()}"></span></li>
-                            <li> Project Url: <a href="#"><span th:text="${project.getProjectUrl()}"></span></a></li>
+        </td>
+        <td  style="width: 70%">
+            <div>
+                <h1 class="name">
+                    <span th:text="${ basicInformationDto.getFirstName() + ' '+basicInformationDto.getMiddleName() +' '+ basicInformationDto.getLastName() }"></span>
+                </h1>
+                <div class="degination">
+                    <p><span th:text="${basicInformationDto.getTitle()}"></span></p>
+                </div>
+                <div class="work_background_wrapper">
+                    <h3>Work Background</h3>
+                    <!-- repeate through loop -->
+                    <div style="margin-bottom: 0.5rem;" th:each="experience : ${experienceInformationDtos}">
+                        <h4 style="margin: 0; padding: 0;">
+                            <!--                    Senior Software Developer  | Team Lead (May 26th 2019 to present)-->
+                            <span th:text=" '('+${experience.getFromDate() +' to ' + (experience.getToPresent() ? ' Present' : experience.getToDate())} +')' "></span>
+                        </h4>
+                        <ul style="padding:0;padding-left:1rem; margin: 0;list-style-type: disc; font-style: italic;">
+                            <li><span th:text="${experience.getCompanyName()}"></span>
+                                (<span th:text="${experience.getCompanyAddress()}"></span>)
+                            </li>
                         </ul>
+                    </div>
+
+                </div>
+                <!-- currently running project -->
+
+                <div class="currently_running_project">
+                    <h2>Current Running Project</h2>
+
+                    <!-- repeate through loop -->
+                    <div class="currently_running_project_child" th:each="project : ${projectInformationDtos}">
+                        <div >
+                            <h3><span th:text="${project.getProjectName()}"></span></h3>
+                            <p>Project Status: <span th:text="${project.getProjectStatus().name()}"></span></p>
+                            <div style="margin-bottom: 0;">
+                                <ul style="padding:0;padding-left:1rem; margin: 0;list-style-type: disc; font-weight: bold;">
+                                    <li> Role: <span th:text="${project.getProjectRole()}"></span></li>
+                                    <li> Description: <span th:text="${project.getProjectDescription()}"></span></li>
+                                    <li> TechStack: <span th:text="${project.getTechStack()}"></span></li>
+                                    <li> Project Url: <a href="#"><span th:text="${project.getProjectUrl()}"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                </div>
+
             </div>
 
-
-        </div>
-
-    </div>
+        </td>
+    </tr>
+</table>
 </div>
 </body>
 </html>

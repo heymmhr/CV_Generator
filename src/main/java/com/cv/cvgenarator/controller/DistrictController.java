@@ -55,8 +55,8 @@ public class DistrictController extends BaseController{
     public ResponseEntity<ResponseDto> deleteDistrict(@PathVariable Short id) {
 
         districtService.deleteDistrict(id);
-        return ResponseEntity.ok(
-                successResponse(customMessageSource.get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
+        return ResponseEntity.ok(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get by id
@@ -64,9 +64,6 @@ public class DistrictController extends BaseController{
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getDistrictById(@PathVariable Short id) {
 
-        if (id == null) {
-            throw new NullPointerException("Id is null");
-        }
         return new ResponseEntity<>(successResponse(customMessageSource.
                 get(MessageConstant.CRUD_GET, customMessageSource
                         .get(MessageCodeConstant.DISTRICT)), districtService.getDistrictById(id)), HttpStatus.OK);

@@ -51,8 +51,8 @@ public class CountryController extends BaseController{
     public ResponseEntity<ResponseDto> deleteCountry(@PathVariable Short id) {
 
         countryService.deleteCountry(id);
-        return ResponseEntity.ok(
-                successResponse(customMessageSource.get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
+        return ResponseEntity.ok(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
     }
 
     // get

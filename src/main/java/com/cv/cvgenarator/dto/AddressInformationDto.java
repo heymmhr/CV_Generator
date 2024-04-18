@@ -22,7 +22,7 @@ public class AddressInformationDto {
     @NotNull(message = "Address type is required")
     private AddressType addressType;
 
-    @NotNull(message = "Basic information ID is required")
+
     private Short basicInformationId;
 
     @NotNull(message = "Province ID is required")

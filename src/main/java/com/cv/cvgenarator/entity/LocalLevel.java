@@ -10,7 +10,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "fl_localevel")
+@Table(name = "fl_localevel", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_name_nameNepali_code", columnNames = {"name","name_n","code"})
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,13 +25,13 @@ public class LocalLevel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "localevel_gen")
     private Short id;
 
-    @Column(name = "name", length = 100, unique = true)
+    @Column(name = "name", length = 100)
     private String name;
 
-    @Column(name = "name_n", length = 100, unique = true)
+    @Column(name = "name_n", length = 100)
     private String nameNepali;
 
-    @Column(name = "code", length = 10, unique = true)
+    @Column(name = "code", length = 10)
     private String code;
 
 

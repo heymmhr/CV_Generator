@@ -6,6 +6,7 @@ import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.EducationInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.EducationInformationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class EducationInformationController extends BaseController{
 
     //create
     @PostMapping("/basic-info/{basic-info-id}/education")
-    public ResponseEntity<ResponseDto> createEducationInfo(@RequestBody EducationInformationDto educationInformationDto,
+    public ResponseEntity<ResponseDto> createEducationInfo(@Valid @RequestBody EducationInformationDto educationInformationDto,
                                                            @PathVariable("basic-info-id") Short basicInfoId) {
 
         return new ResponseEntity<>(successResponse(customMessageSource
@@ -40,7 +41,7 @@ public class EducationInformationController extends BaseController{
     // update by id
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateEducationInfo(@RequestBody EducationInformationDto educationInformationDto,
+    public ResponseEntity<ResponseDto> updateEducationInfo(@Valid @RequestBody EducationInformationDto educationInformationDto,
                                                            @PathVariable Short id) {
 
         EducationInformationDto updateEducationInfo = educationInformationService.updateEducationInformation(educationInformationDto, id);
@@ -57,7 +58,8 @@ public class EducationInformationController extends BaseController{
 
         educationInformationService.deleteEducationInformation(id);
         return ResponseEntity.ok(
-                successResponse(customMessageSource.get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
+                successResponse(customMessageSource
+                        .get(MessageConstant.CRUD_DELETE, customMessageSource.get(messageCode)), null));
 
     }
 
@@ -66,12 +68,9 @@ public class EducationInformationController extends BaseController{
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getEducationInfoById(@PathVariable Short id) {
 
-
-        if (id == null) {
-            throw new NullPointerException("Id is null");
-        }
-        return new ResponseEntity<>(successResponse(customMessageSource.
-                get(MessageConstant.CRUD_GET, customMessageSource.get(MessageCodeConstant.EDUCATION_INFORMATION)), educationInformationService
+        return new ResponseEntity<>(successResponse(customMessageSource
+                .get(MessageConstant.CRUD_GET, customMessageSource
+                        .get(MessageCodeConstant.EDUCATION_INFORMATION)), educationInformationService
                 .getEducationInfoById(id)), HttpStatus.OK);
 
     }

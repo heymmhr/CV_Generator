@@ -22,7 +22,6 @@ import java.time.LocalDate;
 public class ExperienceInformationDto {
     private Short id;
 
-    @NotNull(message = "Basic Information must not be null")
     private Short basicInformationId;
 
     @NotBlank(message = "Company Name Must not be empty")

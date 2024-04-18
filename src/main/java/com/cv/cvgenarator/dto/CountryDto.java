@@ -1,6 +1,7 @@
 package com.cv.cvgenarator.dto;
 
 import com.cv.cvgenarator.entity.Province;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,9 @@ import java.util.List;
 
 @Getter
 @Setter
-
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CountryDto {
 
     private Short id;

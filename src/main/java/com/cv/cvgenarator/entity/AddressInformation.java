@@ -40,10 +40,10 @@ public class AddressInformation {
     private Province province;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
-    @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "addressinfo_country_id"))
+    @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "fk_addressinfo_country_id"))
     private Country country;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = District.class)
-    @JoinColumn(name = "district_id", foreignKey = @ForeignKey(name = "addressinfo_district_id"))
+    @JoinColumn(name = "district_id", foreignKey = @ForeignKey(name = "fk_addressinfo_district_id"))
     private District district;
 }

@@ -6,6 +6,7 @@ import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.AddressInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.AddressInformationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class AddressInformationController extends BaseController{
 
     //create
     @PostMapping("/basic-info/{basic-info-id}/address")
-    public ResponseEntity<ResponseDto> createAddressInfo(@RequestBody AddressInformationDto addressInformationDto,
+    public ResponseEntity<ResponseDto> createAddressInfo(@Valid @RequestBody AddressInformationDto addressInformationDto,
                                                          @PathVariable("basic-info-id") Short basicInfoId) {
 
         return new ResponseEntity<>(successResponse(customMessageSource
@@ -38,10 +39,12 @@ public class AddressInformationController extends BaseController{
     // update
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateAddressInfo(@RequestBody AddressInformationDto addressInformationDto, @PathVariable Short id) {
+    public ResponseEntity<ResponseDto> updateAddressInfo(@Valid @RequestBody AddressInformationDto addressInformationDto, @PathVariable Short id) {
 
-        AddressInformationDto updateAddressInfo = addressInformationService.updateAddressInformation(addressInformationDto, id);
-        return ResponseEntity.ok(new ResponseDto("Address Information Updated Successfully!! : ठेगाना जानकारी सफलतापूर्वक अद्यावधिक गरियो |", true, updateAddressInfo));
+        return new ResponseEntity<>(successResponse(customMessageSource.
+                get(MessageConstant.CRUD_UPDATE, customMessageSource
+                        .get(MessageCodeConstant.BASIC_INFORMATION)), addressInformationService
+                .updateAddressInformation(addressInformationDto, id)), HttpStatus.OK);
     }
 
     // delete
@@ -59,9 +62,6 @@ public class AddressInformationController extends BaseController{
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getAddressInfoById(@PathVariable Short id) {
 
-        if (id == null) {
-            throw new NullPointerException("Id is null");
-        }
         return new ResponseEntity<>(successResponse(customMessageSource.
                 get(MessageConstant.CRUD_GET, customMessageSource.get(MessageCodeConstant.ADDRESS_INFORMATION)), addressInformationService
                 .getAddressInformationById(id)), HttpStatus.OK);

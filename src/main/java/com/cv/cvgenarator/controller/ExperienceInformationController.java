@@ -7,6 +7,7 @@ import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.ExperienceInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.ExperienceInformationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class ExperienceInformationController extends BaseController{
 
     //create
     @PostMapping("/basic-info/{basic-info-id}/experience")
-    public ResponseEntity<ResponseDto> createExperienceInfo(@RequestBody ExperienceInformationDto experienceInformationDto,
+    public ResponseEntity<ResponseDto> createExperienceInfo(@Valid @RequestBody ExperienceInformationDto experienceInformationDto,
                                                             @PathVariable ("basic-info-id") Short basicInfoId){
 
         return new ResponseEntity<>(successResponse(customMessageSource
@@ -40,7 +41,7 @@ public class ExperienceInformationController extends BaseController{
     // update by id
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateExperienceInfo(@RequestBody ExperienceInformationDto experienceInformationDto,
+    public ResponseEntity<ResponseDto> updateExperienceInfo(@Valid @RequestBody ExperienceInformationDto experienceInformationDto,
                                                             @PathVariable Short id) {
 
         ExperienceInformationDto updateExperienceInfo = experienceInformationService.updateExperienceInformation(experienceInformationDto, id);

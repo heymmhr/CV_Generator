@@ -8,6 +8,7 @@ import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.BasicInformationService;
 import com.cv.cvgenarator.service.FileService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,7 +43,7 @@ public class BasicInformationController extends BaseController{
 
     //create
     @PostMapping("/save")
-    public ResponseEntity<ResponseDto> createBasicInfo(@RequestBody BasicInformationDto basicInformationDto) {
+    public ResponseEntity<ResponseDto> createBasicInfo(@Valid @RequestBody BasicInformationDto basicInformationDto) {
 
         return new ResponseEntity<>(successResponse(customMessageSource
                 .get(MessageConstant.CRUD_CREATE, customMessageSource.get(messageCode)), basicInformationService
@@ -54,7 +55,7 @@ public class BasicInformationController extends BaseController{
     // update
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateBasicInfo(@RequestBody BasicInformationDto basicInformationDto, @PathVariable Short id) {
+    public ResponseEntity<ResponseDto> updateBasicInfo(@Valid @RequestBody BasicInformationDto basicInformationDto, @PathVariable Short id) {
 
         return new ResponseEntity<>(successResponse(customMessageSource.
                 get(MessageConstant.CRUD_UPDATE, customMessageSource
@@ -79,10 +80,6 @@ public class BasicInformationController extends BaseController{
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getBasicInfoById(@PathVariable Short id) {
-
-        if (id == null) {
-            throw new NullPointerException("Id is null");
-        }
         return new ResponseEntity<>(successResponse(customMessageSource.
                 get(MessageConstant.CRUD_GET, customMessageSource
                         .get(MessageCodeConstant.BASIC_INFORMATION)), basicInformationService.getBasicInformationById(id)), HttpStatus.OK);
@@ -94,9 +91,6 @@ public class BasicInformationController extends BaseController{
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> getAllBasicInfo() {
 
-       /* List<BasicInformationDto> allBasicInfo = basicInformationService.getAllBasicInfo();
-        return ResponseEntity.ok(new ResponseDto("All Basic Information extracted!! : " +
-                "सबै आधारभूत जानकारी निकालियो |", true, allBasicInfo));*/
 
         return new ResponseEntity<>(successResponse(customMessageSource
                 .get(MessageConstant.CRUD_GET_ALL, customMessageSource

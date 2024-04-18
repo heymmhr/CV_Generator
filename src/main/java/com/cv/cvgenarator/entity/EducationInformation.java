@@ -36,7 +36,7 @@ public class EducationInformation {
     @Column(name = "institution_address", length = 200, nullable = false)
     private String institutionAddress;
 
-    @Column(name = "institution_contact", length = 50, nullable = false, unique = true)
+    @Column(name = "institution_contact", length = 50, nullable = false)
     private String institutionContact;
 
     @Column(name = "from_date", nullable = false)

@@ -46,13 +46,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/api/v1/auth/login").permitAll()
-                                .requestMatchers(HttpMethod.GET).permitAll()
+                                .requestMatchers("/api/v1/auth/register").permitAll()
+                                /*.requestMatchers(HttpMethod.GET).permitAll()
                                 .requestMatchers(HttpMethod.POST).permitAll()
                                 .requestMatchers(HttpMethod.PUT).permitAll()
                                 .requestMatchers(HttpMethod.DELETE).permitAll()
-                                .requestMatchers("/api/v1/auth/register").permitAll()
+
                                 .requestMatchers("/index/template").permitAll()
-                                .requestMatchers("/index/generatePdf/1").permitAll()
+                                .requestMatchers("/index/generatePdf/1").permitAll()*/
                                 .requestMatchers("/index/generateHtml/**").permitAll()
                                 .anyRequest()
                                 .authenticated())

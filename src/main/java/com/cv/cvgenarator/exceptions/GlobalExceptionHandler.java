@@ -1,6 +1,7 @@
 package com.cv.cvgenarator.exceptions;
 
 import com.cv.cvgenarator.dto.ResponseDto;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -46,5 +47,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
 
     }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ResponseDto> handleDataIntegrityViolationException(DataIntegrityViolationException ex){
+        String message = "Duplicate key violation. Please provide unique email and number.";
+        ResponseDto responseDto = new ResponseDto(message, true,null);
+        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
 
 }

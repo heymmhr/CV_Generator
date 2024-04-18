@@ -2,6 +2,7 @@ package com.cv.cvgenarator.dto;
 
 import com.cv.cvgenarator.entity.BasicInformation;
 import com.cv.cvgenarator.enums.DegreeName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,12 +17,13 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EducationInformationDto {
 
     private Short id;
 
-    @NotNull(message = "Basic information ID must not be null")
     private Short basicInformationId;
 
     @NotBlank(message = "Institution name must not be empty")

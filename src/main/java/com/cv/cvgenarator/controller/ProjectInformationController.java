@@ -6,6 +6,7 @@ import com.cv.cvgenarator.constants.MessageConstant;
 import com.cv.cvgenarator.dto.ProjectInformationDto;
 import com.cv.cvgenarator.dto.ResponseDto;
 import com.cv.cvgenarator.service.ProjectInformationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class ProjectInformationController extends BaseController{
 
     //create
     @PostMapping("/experience-info/{experience-info-id}/project")
-    public ResponseEntity<ResponseDto> createProjectInfo(@RequestBody ProjectInformationDto projectInformationDto,
+    public ResponseEntity<ResponseDto> createProjectInfo(@Valid @RequestBody ProjectInformationDto projectInformationDto,
                                                          @PathVariable("experience-info-id") Short experienceInfoId) {
 
 
@@ -39,7 +40,7 @@ public class ProjectInformationController extends BaseController{
     // update by id
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto> updateProjectInfo(@RequestBody ProjectInformationDto projectInformationDto,
+    public ResponseEntity<ResponseDto> updateProjectInfo(@Valid @RequestBody ProjectInformationDto projectInformationDto,
                                                          @PathVariable Short id) {
 
         ProjectInformationDto updateProjectInfo = projectInformationService.updateProjectInformation(projectInformationDto, id);

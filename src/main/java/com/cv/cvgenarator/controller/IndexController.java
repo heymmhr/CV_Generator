@@ -37,7 +37,7 @@ public class IndexController extends BaseController {
     }
 
     @GetMapping("/generateHtml/{id}")
-    public ResponseEntity<String> generateHtml(@PathVariable Short id) throws IOException {
+    public ResponseEntity<?> generateHtml(@PathVariable Short id) throws IOException {
 
         return  ResponseEntity.ok(pdfGenerateService.getAllInformation(id));
     }
